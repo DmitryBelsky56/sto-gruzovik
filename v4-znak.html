@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>СТО Грузовик: ремонт ГАЗ и УАЗ в Оренбурге</title>
+<meta name="description" content="Ремонт ГАЗель, Соболь, ГАЗон, УАЗ Буханка, Патриот, Профи в Оренбурге. Проспект Братьев Коростелёвых, 179/4. Пн-сб 09:00-18:00, воскресенье выходной. +7 (922) 859-00-00.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="photos/gazelle-next.jpg">
+<style>
+/*
+  Вариант 4 «Видно с дороги». Палитра (других цветов в файле нет, полупрозрачные слои только от них):
+  #fdfdfb  фон страницы, карточки, поля ввода (почти белый)
+  #f1f1ee  светло-серая подложка секции с формой
+  #151515  чернила: текст, толстые обводки, тёмные кнопки, табличка адреса
+  #4a4a47  второстепенный текст
+  #ffc700  дорожный жёлтый: только плашки, таблички, кнопка «Записаться», полосы
+  #b42318  ошибки в форме
+
+  Контрасты по WCAG:
+  #151515 на #fdfdfb: 17,93:1
+  #151515 на #f1f1ee: 16,14:1
+  #151515 на #ffc700: 11,67:1
+  #fdfdfb на #151515: 17,93:1
+  #ffc700 на #151515: 11,67:1
+  #4a4a47 на #fdfdfb: 8,73:1
+  #4a4a47 на #f1f1ee: 7,86:1
+  #b42318 на #fdfdfb: 6,46:1
+  #b42318 на #f1f1ee: 5,81:1
+  #fdfdfb на #ffc700: 1,54:1  НЕ ПРОХОДИТ, белый текст на жёлтом не используется нигде
+  #ffc700 на #fdfdfb: 1,54:1  поэтому у жёлтых плашек на белом всегда чёрная обводка 3px (17,93:1)
+
+  Формы: таблички и карточки скругление 16px, кнопки и поля 12px, «пилюли» навигации по узлам 999px.
+  Обводка: главная 3px, поля 2px.
+*/
+.v4 *, .v4 *::before, .v4 *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .v4 * { transition: none !important; } }
+body.v4 {
+  margin: 0;
+  background: #fdfdfb;
+  color: #151515; /* на #fdfdfb: 17,93:1 */
+  font-family: "Golos Text", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+.v4 img { display: block; max-width: 100%; }
+.v4 a { color: inherit; }
+.v4 h1, .v4 h2, .v4 h3, .v4 p, .v4 ul, .v4 ol { margin: 0; }
+.v4 ul, .v4 ol { padding: 0; list-style: none; }
+.v4 .wrap { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 768px) { .v4 .wrap { padding: 0 32px; } }
+.v4 section[id] { scroll-margin-top: 16px; }
+.v4 .nb { white-space: nowrap; }
+.v4 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- кнопки ---------- */
+.v4 .btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 56px; padding: 0 26px;
+  border: 3px solid #151515; border-radius: 12px;
+  font: 800 19px/1.1 "Golos Text", system-ui, sans-serif;
+  text-decoration: none; white-space: nowrap; cursor: pointer;
+  box-shadow: 0 5px 0 #151515;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.v4 .btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #151515; }
+.v4 .btn:focus-visible, .v4 a:focus-visible, .v4 summary:focus-visible { outline: 3px solid #151515; outline-offset: 3px; }
+.v4 .btn-y { background: #ffc700; color: #151515; } /* на #ffc700: 11,67:1 */
+.v4 .btn-k { background: #151515; color: #fdfdfb; } /* на #151515: 17,93:1 */
+.v4 .btn-w { background: #fdfdfb; color: #151515; } /* на #fdfdfb: 17,93:1 */
+@media (hover: hover) {
+  .v4 .btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #151515; }
+  .v4 .btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #151515; }
+}
+
+/* ---------- верхняя полоса и шапка ---------- */
+.v4 .strip { background: #151515; color: #fdfdfb; /* на #151515: 17,93:1 */ }
+.v4 .strip .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; font-size: 15px; font-weight: 600; }
+.v4 .strip-where, .v4 .strip-sun { display: none; }
+.v4 .strip-hours { color: #ffc700; /* на #151515: 11,67:1 */ }
+.v4 .strip a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-weight: 800; font-size: 17px; letter-spacing: .01em; }
+@media (min-width: 768px) { .v4 .strip-where { display: inline; } }
+@media (min-width: 1100px) { .v4 .strip-sun { display: inline; } }
+
+.v4 .head { border-bottom: 3px solid #151515; background: #fdfdfb; }
+.v4 .head .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; }
+.v4 .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; min-height: 44px; }
+.v4 .brand svg { width: 40px; height: 40px; flex: none; }
+.v4 .brand b { font-size: 19px; font-weight: 900; line-height: 1; letter-spacing: 0; white-space: nowrap; }
+@media (min-width: 400px) { .v4 .brand b { font-size: 21px; } }
+.v4 .nav { display: none; }
+.v4 .head .btn { min-height: 48px; padding: 0 14px; font-size: 17px; box-shadow: 0 4px 0 #151515; }
+@media (min-width: 1024px) {
+  .v4 .nav { display: flex; gap: 28px; }
+  .v4 .nav a { font-weight: 800; font-size: 17px; text-decoration: none; padding: 10px 0; border-bottom: 3px solid transparent; }
+  .v4 .nav a:hover { border-bottom-color: #ffc700; }
+  .v4 .head .btn { min-height: 52px; padding: 0 24px; }
+}
+
+/* ---------- первый экран ---------- */
+.v4 .hero { padding: 28px 0 48px; }
+.v4 .hero h1 {
+  font-size: clamp(42px, 11.4vw, 92px);
+  font-weight: 900; line-height: 1.02; letter-spacing: 0;
+}
+.v4 .hero h1 mark {
+  background: #ffc700; color: #151515; /* на #ffc700: 11,67:1 */
+  border: 3px solid #151515; border-radius: 16px;
+  padding: 0 .16em; margin: .06em 0; display: inline-block; line-height: 1.04;
+}
+.v4 .hero-grid { display: grid; gap: 24px; margin-top: 22px; }
+.v4 .hero-lead { font-size: 20px; font-weight: 600; line-height: 1.4; max-width: 30ch; }
+.v4 .hero-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 22px; }
+.v4 .hero-btns .btn { padding: 0 12px; }
+.v4 .addr-plate {
+  margin-top: 22px; border: 3px solid #151515; border-radius: 16px; padding: 14px 16px;
+  display: grid; gap: 4px; background: #fdfdfb;
+}
+.v4 .addr-plate b { font-size: 19px; font-weight: 800; line-height: 1.3; }
+.v4 .addr-plate span { color: #4a4a47; /* на #fdfdfb: 8,73:1 */ font-weight: 600; font-size: 16px; }
+.v4 .addr-plate .hrs { color: #151515; font-weight: 800; }
+.v4 .hero-photo { border: 3px solid #151515; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 3; background: #f1f1ee; }
+.v4 .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 30% 60%; }
+@media (min-width: 900px) {
+  .v4 .hero { padding: 40px 0 72px; }
+  .v4 .hero-grid { grid-template-columns: 5fr 7fr; gap: 40px; align-items: stretch; margin-top: 32px; }
+  .v4 .hero-lead { font-size: 23px; }
+  .v4 .hero-btns { display: flex; flex-wrap: wrap; gap: 14px; }
+  .v4 .hero-btns .btn { padding: 0 28px; min-height: 60px; font-size: 20px; }
+  .v4 .hero-photo { aspect-ratio: auto; min-height: 380px; }
+}
+
+/* ---------- заголовки секций ---------- */
+.v4 .h2 { font-size: clamp(32px, 7.4vw, 56px); font-weight: 900; line-height: 1.05; letter-spacing: 0; }
+.v4 .sec { padding: 56px 0; }
+@media (min-width: 900px) { .v4 .sec { padding: 88px 0; } }
+
+/* ---------- модели ---------- */
+.v4 .models { border-top: 3px solid #151515; }
+.v4 .fam { margin-top: 28px; display: grid; gap: 14px; }
+.v4 .fam-plate {
+  background: #ffc700; color: #151515; /* на #ffc700: 11,67:1 */
+  border: 3px solid #151515; border-radius: 16px; padding: 12px 18px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+}
+.v4 .fam-plate b { font-size: 44px; font-weight: 900; line-height: 1; letter-spacing: .02em; }
+.v4 .fam-plate span { font-weight: 800; font-size: 17px; }
+.v4 .fam-row {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 74%; gap: 12px;
+  overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch; scrollbar-width: thin;
+}
+.v4 .car { scroll-snap-align: start; margin: 0; }
+.v4 .car-img { border: 3px solid #151515; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 3; background: #f1f1ee; }
+.v4 .car-img img { width: 100%; height: 100%; object-fit: cover; }
+.v4 .car figcaption { font-weight: 800; font-size: 19px; margin-top: 8px; line-height: 1.25; }
+@media (min-width: 768px) {
+  .v4 .fam { grid-template-columns: 220px 1fr; gap: 20px; align-items: stretch; }
+  .v4 .fam-plate { justify-content: center; padding: 20px; }
+  .v4 .fam-plate b { font-size: 64px; }
+  .v4 .fam-row { grid-auto-flow: row; grid-template-columns: repeat(3, 1fr); overflow: visible; padding: 0; }
+}
+
+/* ---------- цены ---------- */
+.v4 .prices { background: #fdfdfb; border-top: 3px solid #151515; }
+.v4 .price-note { margin-top: 12px; color: #4a4a47; /* на #fdfdfb: 8,73:1 */ font-size: 15px; font-weight: 600; }
+.v4 .jump { display: flex; gap: 8px; margin-top: 22px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+.v4 .jump a {
+  flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px;
+  border: 2px solid #151515; border-radius: 999px; font-weight: 800; font-size: 16px; text-decoration: none; white-space: nowrap;
+}
+.v4 .jump a:hover { background: #ffc700; }
+@media (min-width: 900px) { .v4 .jump { flex-wrap: wrap; overflow: visible; } }
+.v4 .nodes { display: grid; gap: 22px; margin-top: 28px; }
+@media (min-width: 900px) { .v4 .nodes { grid-template-columns: 1fr 1fr; gap: 28px; } }
+.v4 .node { border: 3px solid #151515; border-radius: 16px; overflow: hidden; background: #fdfdfb; scroll-margin-top: 16px; display: flex; flex-direction: column; }
+.v4 .node-img { aspect-ratio: 16 / 7; background: #f1f1ee; border-bottom: 3px solid #151515; }
+.v4 .node-img img { width: 100%; height: 100%; object-fit: cover; }
+/* табличка-указатель: чёрный контур + жёлтое поле, острый правый край */
+.v4 .sign {
+  align-self: flex-start; margin: -30px 0 0 14px; position: relative;
+  background: #151515; padding: 3px 3px 3px 3px; border-radius: 12px 0 0 12px;
+  clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 50%, calc(100% - 26px) 100%, 0 100%);
+}
+.v4 .sign span {
+  display: block; background: #ffc700; color: #151515; /* на #ffc700: 11,67:1 */
+  border-radius: 9px 0 0 9px; padding: 9px 46px 9px 16px;
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%);
+  font-size: 24px; font-weight: 900; line-height: 1.1; letter-spacing: 0; white-space: nowrap;
+}
+.v4 .node ul { padding: 10px 18px 16px; }
+.v4 .node li {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+  padding: 12px 0;
+}
+.v4 .node li + li { border-top: 2px dashed rgba(21, 21, 21, .28); }
+.v4 .node .w { font-weight: 600; font-size: 16px; line-height: 1.3; }
+.v4 .node .p { flex: none; white-space: nowrap; font-weight: 900; font-size: 27px; line-height: 1; letter-spacing: .01em; }
+.v4 .node .p small { font-size: 16px; font-weight: 800; letter-spacing: 0; margin-right: 4px; }
+@media (min-width: 900px) { .v4 .node-img { aspect-ratio: 16 / 7; } .v4 .node .p { font-size: 34px; } .v4 .node .w { font-size: 18px; } }
+
+/* ---------- как записаться ---------- */
+.v4 .steps-sec { border-top: 3px solid #151515; }
+.v4 .steps { position: relative; margin-top: 32px; display: grid; gap: 30px; padding-left: 74px; }
+/* дорога: чёрная полоса с жёлтой прерывистой разметкой */
+.v4 .steps::before {
+  content: ""; position: absolute; left: 22px; top: 10px; bottom: 10px; width: 14px; border-radius: 7px;
+  background: #151515 repeating-linear-gradient(to bottom, transparent 0 10px, #ffc700 10px 22px) center / 3px 100% no-repeat;
+}
+.v4 .step { position: relative; }
+.v4 .num {
+  position: absolute; left: -74px; top: -4px; width: 58px; height: 58px;
+  display: grid; place-items: center;
+}
+.v4 .num::before {
+  content: ""; position: absolute; inset: 8px; background: #ffc700; border: 3px solid #151515; border-radius: 8px; transform: rotate(45deg);
+}
+.v4 .num b { position: relative; font-size: 24px; font-weight: 900; color: #151515; /* на #ffc700: 11,67:1 */ }
+.v4 .step h3 { font-size: 23px; font-weight: 900; line-height: 1.2; }
+.v4 .step p { margin-top: 6px; color: #4a4a47; /* на #fdfdfb: 8,73:1 */ font-weight: 600; max-width: 34ch; }
+@media (min-width: 900px) {
+  .v4 .steps { grid-template-columns: repeat(3, 1fr); gap: 36px; padding: 84px 0 0; }
+  .v4 .steps::before { left: 0; right: 0; top: 22px; bottom: auto; width: auto; height: 14px;
+    background: #151515 repeating-linear-gradient(to right, transparent 0 10px, #ffc700 10px 26px) center / 100% 3px no-repeat; }
+  .v4 .num { left: 0; top: -92px; }
+  .v4 .step h3 { font-size: 26px; }
+}
+
+/* ---------- парки ---------- */
+.v4 .fleet { padding: 0 0 56px; }
+.v4 .fleet-box { border: 3px solid #151515; border-radius: 16px; overflow: hidden; background: #fdfdfb; }
+.v4 .fleet-box::before {
+  content: ""; display: block; height: 18px; border-bottom: 3px solid #151515;
+  background: repeating-linear-gradient(-45deg, #151515 0 14px, #ffc700 14px 28px);
+}
+.v4 .fleet-in { padding: 24px 18px 26px; display: grid; gap: 20px; }
+.v4 .fleet h2 { font-size: clamp(28px, 6.4vw, 44px); font-weight: 900; line-height: 1.1; }
+.v4 .fleet p { color: #4a4a47; /* на #fdfdfb: 8,73:1 */ font-weight: 600; margin-top: 10px; max-width: 52ch; }
+.v4 .fleet .btn { justify-self: start; }
+@media (min-width: 900px) {
+  .v4 .fleet { padding-bottom: 88px; }
+  .v4 .fleet-in { grid-template-columns: 1fr auto; align-items: center; padding: 36px 40px; gap: 40px; }
+}
+
+/* ---------- форма ---------- */
+.v4 .zapis { background: #f1f1ee; border-top: 3px solid #151515; border-bottom: 3px solid #151515; }
+.v4 .zap-grid { display: grid; gap: 24px; margin-top: 28px; }
+@media (min-width: 900px) { .v4 .zap-grid { grid-template-columns: 7fr 5fr; gap: 32px; align-items: start; } .v4 .voice { position: sticky; top: 24px; } }
+.v4 form { background: #fdfdfb; border: 3px solid #151515; border-radius: 16px; padding: 22px 18px; display: grid; gap: 18px; }
+@media (min-width: 768px) { .v4 form { padding: 32px; } }
+.v4 .fld { display: grid; gap: 6px; }
+.v4 .fld label { font-weight: 800; font-size: 17px; }
+.v4 .fld label small { font-weight: 600; color: #4a4a47; /* на #fdfdfb: 8,73:1 */ font-size: 15px; }
+.v4 input, .v4 select, .v4 textarea {
+  width: 100%; min-height: 56px; padding: 12px 14px;
+  border: 2px solid #151515; border-radius: 12px; background: #fdfdfb; color: #151515; /* на #fdfdfb: 17,93:1 */
+  font: 600 18px/1.3 "Golos Text", system-ui, sans-serif;
+}
+.v4 textarea { min-height: 110px; resize: vertical; }
+.v4 select {
+  appearance: none; -webkit-appearance: none; padding-right: 48px; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, #151515 50%), linear-gradient(135deg, #151515 50%, transparent 50%);
+  background-position: calc(100% - 26px) 50%, calc(100% - 18px) 50%;
+  background-size: 8px 8px, 8px 8px; background-repeat: no-repeat;
+}
+.v4 ::placeholder { color: #4a4a47; opacity: 1; } /* на #fdfdfb: 8,73:1 */
+.v4 input:focus, .v4 select:focus, .v4 textarea:focus { outline: 3px solid #151515; outline-offset: 2px; box-shadow: inset 0 0 0 3px #ffc700; }
+.v4 [aria-invalid="true"] { border-color: #b42318; border-width: 3px; }
+.v4 .err { color: #b42318; /* на #fdfdfb: 6,46:1 */ font-weight: 700; font-size: 15px; min-height: 0; }
+.v4 .err:empty { display: none; }
+.v4 .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.v4 form .btn { width: 100%; }
+.v4 .ok {
+  background: #ffc700; color: #151515; /* на #ffc700: 11,67:1 */
+  border: 3px solid #151515; border-radius: 12px; padding: 14px 16px; font-weight: 800; font-size: 17px;
+}
+.v4 .ok[hidden] { display: none; }
+.v4 .voice { border: 3px solid #151515; border-radius: 16px; padding: 22px 18px; background: #fdfdfb; display: grid; gap: 14px; }
+.v4 .voice h3 { font-size: 24px; font-weight: 900; line-height: 1.2; }
+.v4 .voice .big { font-size: clamp(26px, 7vw, 34px); font-weight: 900; letter-spacing: .01em; text-decoration: none; line-height: 1.15; }
+.v4 .voice p { color: #4a4a47; /* на #fdfdfb: 8,73:1 */ font-weight: 600; }
+.v4 .voice-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
+.v4 .voice-btns .btn { padding: 0 10px; }
+@media (min-width: 768px) { .v4 .voice { padding: 28px; } }
+
+/* ---------- контакты ---------- */
+.v4 .board { margin-top: 28px; border: 3px solid #151515; border-radius: 16px; overflow: hidden; display: grid; }
+.v4 .cell { padding: 20px 18px; display: grid; gap: 6px; align-content: start; }
+.v4 .cell + .cell { border-top: 3px solid #151515; }
+.v4 .cell h3 { font-size: 15px; font-weight: 800; color: #4a4a47; /* на #fdfdfb: 8,73:1 */ }
+.v4 .cell .v { font-size: 26px; font-weight: 900; line-height: 1.15; letter-spacing: 0; }
+.v4 .cell a.v { text-decoration: none; }
+.v4 .cell .sub { font-weight: 600; color: #4a4a47; font-size: 16px; }
+.v4 .cell-addr { background: #151515; color: #fdfdfb; /* на #151515: 17,93:1 */ }
+.v4 .cell-addr h3 { color: #ffc700; /* на #151515: 11,67:1 */ }
+.v4 .cell-addr .sub { color: #fdfdfb; }
+.v4 .cell-addr .btn { margin-top: 12px; justify-self: start; box-shadow: 0 5px 0 #ffc700; border-color: #ffc700; }
+.v4 .cell-addr .btn:active { box-shadow: 0 1px 0 #ffc700; }
+@media (hover: hover) { .v4 .cell-addr .btn:hover { box-shadow: 0 7px 0 #ffc700; } }
+.v4 .cell-addr .btn:focus-visible { outline-color: #ffc700; }
+.v4 .rate { display: inline-flex; align-items: center; gap: 10px; }
+.v4 .rate .score { background: #ffc700; border: 3px solid #151515; border-radius: 12px; padding: 2px 10px; }
+.v4 .cell a.lnk { font-weight: 800; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; display: inline-flex; align-items: center; min-height: 44px; }
+@media (min-width: 900px) {
+  .v4 .board { grid-template-columns: 1.5fr 1fr 1fr 1fr; }
+  .v4 .cell { padding: 28px 24px; }
+  .v4 .cell + .cell { border-top: 0; border-left: 3px solid #151515; }
+  .v4 .cell .v { font-size: 28px; }
+}
+
+/* ---------- подвал ---------- */
+.v4 .foot { border-top: 3px solid #151515; padding: 36px 0 40px; font-size: 15px; }
+.v4 .foot-grid { display: grid; gap: 18px; }
+.v4 .foot b { font-size: 19px; font-weight: 900; }
+.v4 .foot p { color: #4a4a47; /* на #fdfdfb: 8,73:1 */ font-weight: 600; }
+.v4 .foot a { font-weight: 800; }
+.v4 details summary { cursor: pointer; font-weight: 800; min-height: 44px; display: inline-flex; align-items: center; }
+.v4 details ul { margin-top: 8px; display: grid; gap: 6px; color: #4a4a47; /* на #fdfdfb: 8,73:1 */ }
+.v4 details li { overflow-wrap: anywhere; }
+@media (min-width: 900px) { .v4 .foot-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+
+/* ---------- нижняя липкая панель на телефоне ---------- */
+.v4 .dock {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  background: #fdfdfb; border-top: 3px solid #151515;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.v4 .dock .btn { min-height: 52px; font-size: 18px; padding: 0 8px; box-shadow: none; }
+.v4 .dock .btn:active { transform: translateY(2px); }
+body.v4 { padding-bottom: 78px; }
+@media (min-width: 900px) { .v4 .dock { display: none; } body.v4 { padding-bottom: 0; } }
+</style>
+</head>
+<body class="v4">
+
+<div class="strip">
+  <div class="wrap">
+    <span class="strip-where">Оренбург, пр. Братьев Коростелёвых, 179/4</span>
+    <span class="strip-hours">пн-сб 09:00-18:00<span class="strip-sun">, воскресенье выходной</span></span>
+    <a href="tel:+79228590000">+7 (922) 859-00-00</a>
+  </div>
+</div>
+
+<header class="head">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="СТО Грузовик, в начало страницы">
+      <!-- знак: ромб «главная дорога» с буквой Г -->
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <rect x="6" y="6" width="28" height="28" rx="4" transform="rotate(45 20 20)" fill="#151515"/>
+        <rect x="9.6" y="9.6" width="20.8" height="20.8" rx="2.4" transform="rotate(45 20 20)" fill="#ffc700"/>
+        <path d="M15 13h11v3.8h-6.8V27H15z" fill="#151515"/>
+      </svg>
+      <b>СТО Грузовик</b>
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#modeli">Машины</a>
+      <a href="#ceny">Цены</a>
+      <a href="#kak">Как записаться</a>
+      <a href="#kontakty">Контакты</a>
+    </nav>
+    <a class="btn btn-y" href="#zapis">Записаться</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" aria-labelledby="h-hero">
+    <div class="wrap">
+      <h1 id="h-hero">Ремонт <mark class="nb">ГАЗ и УАЗ</mark> <span class="nb">в Оренбурге</span></h1>
+      <div class="hero-grid">
+        <div>
+          <p class="hero-lead">ГАЗель, Соболь, ГАЗон, Буханка, Патриот, Профи. Знаем эти машины наизусть.</p>
+          <div class="hero-btns">
+            <a class="btn btn-y" href="#zapis">Записаться</a>
+            <a class="btn btn-k" href="tel:+79228590000">Позвонить</a>
+          </div>
+          <p class="addr-plate">
+            <b>пр. Братьев Коростелёвых, 179/4</b>
+            <span>Промышленный район, Красный городок</span>
+            <span class="hrs">пн-сб 09:00-18:00, воскресенье выходной</span>
+          </p>
+        </div>
+        <div class="hero-photo">
+          <img src="photos/gazelle-next.jpg" alt="Бирюзовая ГАЗель Next с фургоном едет по городской улице" width="1408" height="900" fetchpriority="high">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec models" id="modeli" aria-labelledby="h-models">
+    <div class="wrap">
+      <h2 class="h2" id="h-models">Какие машины чиним</h2>
+
+      <div class="fam">
+        <p class="fam-plate"><b>ГАЗ</b><span>ГАЗель, Соболь, ГАЗон</span></p>
+        <div class="fam-row">
+          <figure class="car">
+            <div class="car-img"><img src="photos/gazelle-business.jpg" alt="ГАЗель Бизнес бортовая с тентом" width="1600" height="1270" loading="lazy"></div>
+            <figcaption>ГАЗель Бизнес и Next</figcaption>
+          </figure>
+          <figure class="car">
+            <div class="car-img"><img src="photos/gaz-sobol.jpg" alt="Цельнометаллический фургон ГАЗ Соболь" width="1360" height="1071" loading="lazy"></div>
+            <figcaption>ГАЗ Соболь</figcaption>
+          </figure>
+          <figure class="car">
+            <div class="car-img"><img src="photos/gazon-next.jpg" alt="Самосвал ГАЗон Next с оранжевым кузовом" width="1600" height="1145" loading="lazy"></div>
+            <figcaption>ГАЗон Next</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="fam">
+        <p class="fam-plate"><b>УАЗ</b><span>Буханка, Патриот, Профи</span></p>
+        <div class="fam-row">
+          <figure class="car">
+            <div class="car-img"><img src="photos/uaz-452-bukhanka.jpg" alt="УАЗ Буханка цвета хаки с багажником на крыше" width="1456" height="1200" loading="lazy"></div>
+            <figcaption>УАЗ Буханка</figcaption>
+          </figure>
+          <figure class="car">
+            <div class="car-img"><img src="photos/uaz-patriot.jpg" alt="Белый УАЗ Патриот, вид спереди" width="1600" height="1085" loading="lazy"></div>
+            <figcaption>УАЗ Патриот</figcaption>
+          </figure>
+          <figure class="car">
+            <div class="car-img"><img src="photos/uaz-profi.jpg" alt="УАЗ Профи с фургоном" width="1600" height="1057" loading="lazy"></div>
+            <figcaption>УАЗ Профи</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ДЕМО-ЦЕНЫ: заменить на цены сервиса -->
+  <section class="sec prices" id="ceny" aria-labelledby="h-prices">
+    <div class="wrap">
+      <h2 class="h2" id="h-prices">Сколько стоит ремонт</h2>
+      <p class="price-note">Цены ориентировочные, точную стоимость скажем после осмотра.</p>
+      <nav class="jump" aria-label="Узлы">
+        <a href="#u-dvig">Двигатель</a>
+        <a href="#u-trans">Трансмиссия</a>
+        <a href="#u-hod">Ходовая</a>
+        <a href="#u-torm">Тормоза</a>
+        <a href="#u-grm">ГРМ</a>
+        <a href="#u-diag">Диагностика</a>
+        <a href="#u-razval">Развал-схождение</a>
+        <a href="#u-turbo">Турбина и топливо</a>
+      </nav>
+
+      <div class="nodes">
+        <article class="node" id="u-dvig">
+          <div class="node-img"><img src="photos/part-engine.jpg" alt="Снятый двигатель на полу мастерской" width="1600" height="1200" loading="lazy"></div>
+          <h3 class="sign"><span>Двигатель</span></h3>
+          <ul>
+            <li><span class="w">Компьютерная диагностика двигателя</span><span class="p"><small>от</small>1&nbsp;000&nbsp;₽</span></li>
+            <li><span class="w">Замена масла и фильтров</span><span class="p"><small>от</small>800&nbsp;₽</span></li>
+            <li><span class="w">Капитальный ремонт двигателя</span><span class="p"><small>от</small>35&nbsp;000&nbsp;₽</span></li>
+          </ul>
+        </article>
+
+        <article class="node" id="u-trans">
+          <div class="node-img"><img src="photos/part-transmission-clutch.jpg" alt="Диск сцепления крупным планом" width="1600" height="1200" loading="lazy"></div>
+          <h3 class="sign"><span>Трансмиссия</span></h3>
+          <ul>
+            <li><span class="w">Замена сцепления</span><span class="p"><small>от</small>5&nbsp;000&nbsp;₽</span></li>
+            <li><span class="w">Ремонт КПП</span><span class="p"><small>от</small>7&nbsp;000&nbsp;₽</span></li>
+            <li><span class="w">Ремонт заднего моста</span><span class="p"><small>от</small>6&nbsp;000&nbsp;₽</span></li>
+          </ul>
+        </article>
+
+        <article class="node" id="u-hod">
+          <div class="node-img"><img src="photos/part-suspension.jpg" alt="Стойка амортизатора с пружиной и ступица с тормозным диском" width="1600" height="1200" loading="lazy"></div>
+          <h3 class="sign"><span>Ходовая</span></h3>
+          <ul>
+            <li><span class="w">Диагностика подвески</span><span class="p"><small>от</small>500&nbsp;₽</span></li>
+            <li><span class="w">Замена шаровой опоры</span><span class="p"><small>от</small>1&nbsp;200&nbsp;₽</span></li>
+            <li><span class="w">Замена амортизаторов, пара</span><span class="p"><small>от</small>1&nbsp;800&nbsp;₽</span></li>
+          </ul>
+        </article>
+
+        <article class="node" id="u-torm">
+          <div class="node-img"><img src="photos/part-brakes.jpg" alt="Тормозной диск и суппорт на колесе" width="1424" height="1068" loading="lazy"></div>
+          <h3 class="sign"><span>Тормоза</span></h3>
+          <ul>
+            <li><span class="w">Замена колодок, ось</span><span class="p"><small>от</small>900&nbsp;₽</span></li>
+            <li><span class="w">Замена дисков, ось</span><span class="p"><small>от</small>1&nbsp;800&nbsp;₽</span></li>
+            <li><span class="w">Прокачка тормозов</span><span class="p"><small>от</small>1&nbsp;000&nbsp;₽</span></li>
+          </ul>
+        </article>
+
+        <article class="node" id="u-grm">
+          <div class="node-img"><img src="photos/part-timing.jpg" alt="Цепь ГРМ и звёздочки распредвалов" width="1600" height="1200" loading="lazy"></div>
+          <h3 class="sign"><span>ГРМ</span></h3>
+          <ul>
+            <li><span class="w">Замена цепи ГРМ</span><span class="p"><small>от</small>8&nbsp;000&nbsp;₽</span></li>
+            <li><span class="w">Замена ремня ГРМ</span><span class="p"><small>от</small>4&nbsp;500&nbsp;₽</span></li>
+          </ul>
+        </article>
+
+        <article class="node" id="u-diag">
+          <div class="node-img"><img src="photos/part-diagnostics.jpg" alt="Разъём для компьютерной диагностики в руке и ноутбук" width="1424" height="1068" loading="lazy"></div>
+          <h3 class="sign"><span>Диагностика</span></h3>
+          <ul>
+            <li><span class="w">Компьютерная диагностика</span><span class="p"><small>от</small>1&nbsp;000&nbsp;₽</span></li>
+            <li><span class="w">Поиск неисправности электрики</span><span class="p"><small>от</small>1&nbsp;500&nbsp;₽</span></li>
+          </ul>
+        </article>
+
+        <article class="node" id="u-razval">
+          <div class="node-img"><img src="photos/part-wheel-alignment.jpg" alt="Колесо на стенде развал-схождения с мишенью" width="1600" height="1200" loading="lazy"></div>
+          <h3 class="sign"><span>Развал-схождение</span></h3>
+          <ul>
+            <li><span class="w">ГАЗель, Соболь</span><span class="p"><small>от</small>1&nbsp;800&nbsp;₽</span></li>
+            <li><span class="w">ГАЗон</span><span class="p"><small>от</small>2&nbsp;500&nbsp;₽</span></li>
+            <li><span class="w">УАЗ</span><span class="p"><small>от</small>1&nbsp;800&nbsp;₽</span></li>
+          </ul>
+        </article>
+
+        <article class="node" id="u-turbo">
+          <div class="node-img"><img src="photos/part-turbo.jpg" alt="Турбокомпрессор на дизельном двигателе" width="1600" height="1200" loading="lazy"></div>
+          <h3 class="sign"><span>Турбина и топливо</span></h3>
+          <ul>
+            <li><span class="w">Снятие и установка турбины</span><span class="p"><small>от</small>4&nbsp;000&nbsp;₽</span></li>
+            <li><span class="w">Чистка форсунок</span><span class="p"><small>от</small>3&nbsp;000&nbsp;₽</span></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec steps-sec" id="kak" aria-labelledby="h-steps">
+    <div class="wrap">
+      <h2 class="h2" id="h-steps">Как записаться</h2>
+      <ol class="steps">
+        <li class="step">
+          <span class="num" aria-hidden="true"><b>1</b></span>
+          <h3>Звоните или оставьте заявку</h3>
+          <p>Можно написать в WhatsApp. Скажите, какая машина и что случилось.</p>
+        </li>
+        <li class="step">
+          <span class="num" aria-hidden="true"><b>2</b></span>
+          <h3>Мастер перезвонит и назовёт время</h3>
+          <p>Договоримся, когда вам удобно приехать.</p>
+        </li>
+        <li class="step">
+          <span class="num" aria-hidden="true"><b>3</b></span>
+          <h3>Приезжаете на ремонт</h3>
+          <p>Сначала осмотр и цена. Ремонт начинаем только после того, как вы согласны с ценой.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="fleet" aria-labelledby="h-fleet">
+    <div class="wrap">
+      <div class="fleet-box">
+        <div class="fleet-in">
+          <div>
+            <h2 id="h-fleet">Обслуживаете несколько машин? Обсудим условия.</h2>
+            <p>Если у вас свой парк ГАЗелей или УАЗов, позвоните. Расскажите, сколько машин и что нужно, обсудим, как удобнее.</p>
+          </div>
+          <a class="btn btn-k" href="tel:+79228590000">Позвонить</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec zapis" id="zapis" aria-labelledby="h-zapis">
+    <div class="wrap">
+      <h2 class="h2" id="h-zapis">Записаться на ремонт</h2>
+      <div class="zap-grid">
+        <!-- ФОРМА-ВИТРИНА: отправка не подключена -->
+        <form id="lead" novalidate>
+          <div class="fld">
+            <label for="f-name">Как вас зовут</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" maxlength="60" aria-describedby="e-name" required>
+            <p class="err" id="e-name" aria-live="polite"></p>
+          </div>
+          <div class="fld">
+            <label for="f-phone">Телефон</label>
+            <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (9XX) XXX-XX-XX" maxlength="40" aria-describedby="e-phone" required>
+            <p class="err" id="e-phone" aria-live="polite"></p>
+          </div>
+          <div class="fld">
+            <label for="f-model">Машина</label>
+            <select id="f-model" name="model" aria-describedby="e-model" required>
+              <option value="">Выберите машину</option>
+              <option>ГАЗель</option>
+              <option>Соболь</option>
+              <option>ГАЗон</option>
+              <option>УАЗ Буханка</option>
+              <option>УАЗ Патриот</option>
+              <option>УАЗ Профи</option>
+              <option>другая</option>
+            </select>
+            <p class="err" id="e-model" aria-live="polite"></p>
+          </div>
+          <div class="fld">
+            <label for="f-msg">Что случилось <small>(можно не писать)</small></label>
+            <textarea id="f-msg" name="message" maxlength="1000" aria-describedby="e-msg"></textarea>
+            <p class="err" id="e-msg" aria-live="polite"></p>
+          </div>
+          <div class="trap" aria-hidden="true">
+            <label for="f-website">Сайт</label>
+            <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <button class="btn btn-y" type="submit">Записаться</button>
+          <p class="ok" id="ok" role="status" hidden>Заявка заполнена верно. В рабочей версии сайта она сразу придёт мастеру в Telegram.</p>
+        </form>
+
+        <aside class="voice" aria-labelledby="h-voice">
+          <h3 id="h-voice">Проще голосом?</h3>
+          <a class="big" href="tel:+79228590000">+7 (922) 859-00-00</a>
+          <p>Звоните пн-сб 09:00-18:00, воскресенье выходной. Или пишите в WhatsApp.</p>
+          <div class="voice-btns">
+            <a class="btn btn-k" href="tel:+79228590000">Позвонить</a>
+            <a class="btn btn-w" href="https://wa.me/79228590000" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="kontakty" aria-labelledby="h-kont">
+    <div class="wrap">
+      <h2 class="h2" id="h-kont">Как нас найти</h2>
+      <div class="board">
+        <div class="cell cell-addr">
+          <h3>Адрес</h3>
+          <p class="v">Оренбург, проспект Братьев Коростелёвых, 179/4</p>
+          <p class="sub">1 этаж. Промышленный район, Красный городок</p>
+          <a class="btn btn-k" href="https://yandex.ru/maps/org/avtoservis/204003473422/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a>
+        </div>
+        <div class="cell">
+          <h3>Часы работы</h3>
+          <p class="v">пн-сб<br>09:00-18:00</p>
+          <p class="sub">воскресенье выходной</p>
+        </div>
+        <div class="cell">
+          <h3>Телефон</h3>
+          <a class="v nb" href="tel:+79228590000">+7 (922) 859-00-00</a>
+          <a class="lnk" href="https://wa.me/79228590000" target="_blank" rel="noopener">Написать в WhatsApp</a>
+        </div>
+        <div class="cell">
+          <h3>Оценка клиентов</h3>
+          <p class="v rate"><span class="score">4,1</span> из 5</p>
+          <a class="lnk" href="https://yandex.ru/maps/org/avtoservis/204003473422/" target="_blank" rel="noopener">на Яндекс Картах</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <b>СТО Грузовик</b>
+      <p>Ремонт ГАЗ и УАЗ. Оренбург, проспект Братьев Коростелёвых, 179/4</p>
+      <p><a href="tel:+79228590000">+7 (922) 859-00-00</a></p>
+      <p>пн-сб 09:00-18:00, воскресенье выходной</p>
+      <p>ИП Кузнецов А.В.</p>
+    </div>
+    <div>
+      <details>
+        <summary>Фото: Wikimedia Commons</summary>
+        <ul>
+          <li>ГАЗель Бизнес: GAZ Česká republika, <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ru" target="_blank" rel="noopener">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:GAZ_GAZelle_3302_V.jpg" target="_blank" rel="noopener">источник</a>, обрезано</li>
+          <li>ГАЗ Соболь: Artyom Svetlov, <a href="https://creativecommons.org/licenses/by/4.0/deed.ru" target="_blank" rel="noopener">CC BY 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Auto_GAZ_Sobol_Moscow_Bolotnikovskaya_Street_%D0%9A452%D0%A2%D0%9D797_2025-02_854.JPG" target="_blank" rel="noopener">источник</a>, обрезано</li>
+          <li>УАЗ Буханка: Jamshid Nurkulov, <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ru" target="_blank" rel="noopener">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:UAZ-452._Tashkent,_Chimkent_street_01.jpg" target="_blank" rel="noopener">источник</a>, обрезано</li>
+          <li>Двигатель: Shixart1985, <a href="https://creativecommons.org/licenses/by/2.0/deed.ru" target="_blank" rel="noopener">CC BY 2.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Engine_parts_and_components_on_the_floor_in_a_garage.jpg" target="_blank" rel="noopener">источник</a></li>
+          <li>Сцепление: Shixart1985, <a href="https://creativecommons.org/licenses/by/2.0/deed.ru" target="_blank" rel="noopener">CC BY 2.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Close-up_view_of_a_worn_clutch_disc_among_automotive_tools_in_a_workshop.jpg" target="_blank" rel="noopener">источник</a></li>
+          <li>Тормоза: Shixart1985, <a href="https://creativecommons.org/licenses/by/2.0/deed.ru" target="_blank" rel="noopener">CC BY 2.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Rusty_brake_disc_and_caliper_shown_on_a_vehicle_parked_on_gravel_near_a_road.jpg" target="_blank" rel="noopener">источник</a></li>
+          <li>ГРМ: Logansenf, <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ru" target="_blank" rel="noopener">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Timing_Chain.jpg" target="_blank" rel="noopener">источник</a>, обрезано</li>
+          <li>Диагностика: Nenad Stojkovic, <a href="https://creativecommons.org/licenses/by/2.0/deed.ru" target="_blank" rel="noopener">CC BY 2.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Man_holding_Obd2_jack_for_car_software_diagnostic.jpg" target="_blank" rel="noopener">источник</a></li>
+          <li>Развал-схождение: Mike Peel, <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ru" target="_blank" rel="noopener">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Wheel_alignment_on_a_Ford_Focus_2.jpg" target="_blank" rel="noopener">источник</a>, обрезано</li>
+          <li>Турбина: Panoha, <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.ru" target="_blank" rel="noopener">CC BY-SA 3.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Turbocharger_assembly.jpg" target="_blank" rel="noopener">источник</a>, обрезано</li>
+          <li>ГАЗель Next, ГАЗон Next, УАЗ Патриот, УАЗ Профи (CC0) и ходовая (общественное достояние): Svetlov Artem, Throwawayacc222, Bukk</li>
+          <li><a href="photos/CREDITS.md">Полный список источников</a></li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</footer>
+
+<div class="dock" aria-label="Быстрая связь">
+  <a class="btn btn-k" href="tel:+79228590000">Позвонить</a>
+  <a class="btn btn-y" href="#zapis">Записаться</a>
+</div>
+
+<script>
+/* ФОРМА-ВИТРИНА: проверка ввода в браузере по правилам tools/form-rules (lead-rules.ts), отправки нет */
+(function () {
+  var f = document.getElementById('lead');
+  if (!f) return;
+  var ok = document.getElementById('ok');
+
+  var MSG = {
+    nameEmpty: 'Введите имя',
+    nameLen: 'Имя: от 2 до 60 символов',
+    nameChars: 'В имени только буквы, пробел, дефис и апостроф',
+    nameJunk: 'Похоже на случайный набор букв. Укажите настоящее имя',
+    phoneEmpty: 'Введите телефон',
+    phoneChars: 'В номере только цифры, +, пробелы, скобки и дефис',
+    phoneRu: 'Нужен российский мобильный номер: +7 9XX XXX-XX-XX',
+    phoneJunk: 'Похоже на ненастоящий номер. Проверьте цифры',
+    model: 'Выберите машину',
+    msgLink: 'Ссылки в заявке не принимаем. Опишите поломку словами',
+    msgJunk: 'Похоже на случайный набор букв. Опишите поломку словами или оставьте поле пустым'
+  };
+
+  var NAME_RE = /^\p{L}[\p{L}\p{M}]*(?:[ '’-]\p{L}[\p{L}\p{M}]*)*$/u;
+  var KB_ROWS = ['йцукенгшщзхъ', 'фывапролджэё', 'ячсмитьбю', 'qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
+  var VOWELS = /[аеёиоуыэюяaeiouy]/;
+  var JUNK_WORDS = /^(тест|тестовый|проверка|test|testing|qwerty|йцукен|фыва|олдж|asdf|asd|qwe|zxc|xxx|ххх|aaa|ааа)$/;
+
+  function isJunkWord(w, needVowel) {
+    if (needVowel === undefined) needVowel = true;
+    if (JUNK_WORDS.test(w)) return true;
+    if (/(\p{L})\1\1/u.test(w)) return true;
+    var latCyr = /^[a-zа-яё]+$/.test(w);
+    if (needVowel && latCyr && w.length >= 3 && !VOWELS.test(w)) return true;
+    if (latCyr && w.length >= 4 && KB_ROWS.some(function (r) { return w.split('').every(function (c) { return r.indexOf(c) >= 0; }); })) {
+      var seen = {};
+      for (var i = 0; i < w.length - 1; i++) {
+        var p = w.slice(i, i + 2);
+        if (seen[p]) return true;
+        seen[p] = 1;
+      }
+    }
+    return false;
+  }
+
+  function nameError(raw) {
+    var v = raw.normalize('NFC').replace(/\s+/g, ' ').trim();
+    if (!v) return MSG.nameEmpty;
+    if (v.length < 2 || v.length > 60) return MSG.nameLen;
+    if (!NAME_RE.test(v)) return MSG.nameChars;
+    if (/(^|[ '’-])[A-Z]{12,}($|[ '’-])/.test(v)) return MSG.nameJunk;
+    if (v.toLowerCase().split(/[ '’-]+/).some(function (w) { return isJunkWord(w); })) return MSG.nameJunk;
+    return '';
+  }
+
+  function isJunkDigits(national) {
+    var n = national.slice(-9);
+    if ('01234567890'.indexOf(n.slice(-7)) >= 0 || '9876543210'.indexOf(n.slice(-7)) >= 0) return true;
+    for (var p = 1; p <= 4; p++) {
+      var rep = true;
+      for (var i = p; i < n.length && rep; i++) rep = n[i] === n[i - p];
+      if (rep) return true;
+    }
+    return false;
+  }
+
+  /* Россия, только мобильный: +7 9XX XXX-XX-XX; 8 9XX... и 9XX... приводим к +7 */
+  function phoneError(raw) {
+    var s = raw.trim();
+    if (!s) return MSG.phoneEmpty;
+    if (s.length > 40 || !/^\+?[\d\s()\-]+$/.test(s)) return MSG.phoneChars;
+    var d = s.replace(/\D/g, '');
+    var nat;
+    if (s[0] === '+') { if (d[0] !== '7') return MSG.phoneRu; nat = d.slice(1); }
+    else if (d.length === 11 && (d[0] === '8' || d[0] === '7')) nat = d.slice(1);
+    else if (d.length === 10) nat = d;
+    else return MSG.phoneRu;
+    if (nat.length !== 10 || nat[0] !== '9') return MSG.phoneRu;
+    if (isJunkDigits(nat)) return MSG.phoneJunk;
+    return '';
+  }
+
+  function messageError(raw) {
+    var v = raw.trim().toLowerCase();
+    if (!v) return '';
+    if (!/\p{L}{2}/u.test(v)) return MSG.msgJunk;
+    if (/(https?:\/\/|www\.|t\.me\/|telegram\.me\/|wa\.me\/|vk\.(com|ru)\/|\b[a-z0-9-]+\.(ru|com|net|org|me|io|ly|su|рф)\b)/i.test(v)) return MSG.msgLink;
+    if (/[a-zа-яё]{3,}\d{3,}[a-zа-яё]{3,}/.test(v)) return MSG.msgJunk;
+    var words = v.split(/[^\p{L}]+/u).filter(Boolean);
+    if (words.length > 4) return '';
+    for (var i = 0; i < words.length; i++) if (!isJunkWord(words[i], false)) return '';
+    return MSG.msgJunk;
+  }
+
+  /* маска: +7 (9XX) XXX-XX-XX */
+  function maskPhone(v) {
+    var t = v.trim();
+    if (t === '+' || t === '') return t;
+    var d = t.replace(/\D/g, '');
+    if (!d) return '';
+    if (t[0] === '+' && d[0] !== '7') return t;
+    if (d[0] === '8') d = '7' + d.slice(1);
+    if (d[0] !== '7') d = '7' + d;
+    d = d.slice(0, 11);
+    var s = '+7';
+    if (d.length > 1) s += ' (' + d.slice(1, 4);
+    if (d.length >= 4) s += ')';
+    if (d.length > 4) s += ' ' + d.slice(4, 7);
+    if (d.length > 7) s += '-' + d.slice(7, 9);
+    if (d.length > 9) s += '-' + d.slice(9, 11);
+    return s;
+  }
+  f.phone.addEventListener('input', function (e) {
+    if (e.inputType && e.inputType.indexOf('delete') === 0) return;
+    f.phone.value = maskPhone(f.phone.value);
+  });
+
+  var checks = {
+    name: [function () { return nameError(f.name.value); }, 'e-name'],
+    phone: [function () { return phoneError(f.phone.value); }, 'e-phone'],
+    model: [function () { return f.model.value ? '' : MSG.model; }, 'e-model'],
+    message: [function () { return messageError(f.message.value); }, 'e-msg']
+  };
+  function validate(key) {
+    var msg = checks[key][0]();
+    f[key].setAttribute('aria-invalid', msg ? 'true' : 'false');
+    document.getElementById(checks[key][1]).textContent = msg;
+    return !msg;
+  }
+  Object.keys(checks).forEach(function (key) {
+    f[key].addEventListener('blur', function () { if (f[key].value.trim()) validate(key); });
+    f[key].addEventListener('input', function () {
+      ok.hidden = true;
+      if (f[key].getAttribute('aria-invalid') === 'true') validate(key);
+    });
+  });
+  f.model.addEventListener('change', function () { validate('model'); });
+
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    ok.hidden = true;
+    /* ловушка для ботов: заполнено скрытое поле, делаем вид, что всё хорошо, и ничего не делаем */
+    if (f.website.value) { ok.hidden = false; return; }
+    var first = null;
+    Object.keys(checks).forEach(function (key) {
+      if (!validate(key) && !first) first = f[key];
+    });
+    if (first) { first.focus(); return; }
+    ok.hidden = false;
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>СТО Грузовик: ремонт ГАЗ и УАЗ в Оренбурге</title>
+<meta name="description" content="Ремонт и обслуживание ГАЗелей, Соболей, ГАЗонов и УАЗов в Оренбурге. Проспект Братьев Коростелёвых, 179/4. Пн-сб 09:00-18:00. +7 (922) 859-00-00.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="СТО Грузовик: ремонт ГАЗ и УАЗ в Оренбурге">
+<meta property="og:description" content="ГАЗель, Соболь, ГАЗон, УАЗ. Пр. Братьев Коростелёвых, 179/4. Пн-сб 09:00-18:00.">
+<meta property="og:image" content="photos/gazelle-next.jpg">
+<!-- og:url добавить, когда будет постоянный адрес сайта -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap&subset=cyrillic" rel="stylesheet">
+<link rel="preload" as="image" href="photos/gazelle-next.jpg">
+<style>
+/*
+  Вариант 5 «Как у дилера, но по-честному».
+  Палитра (только эти значения, полупрозрачные слои только от них):
+    #f2f5f9  фон страницы, холодный светло-серый
+    #fbfcfe  поверхности: карточки, шапка, поля формы
+    #e7edf5  тонированная поверхность: чипы, вкладки, плашки
+    #0f1d2e  основной текст (почти чёрный с синевой)
+    #4b5a6d  второстепенный текст
+    #163a6b  основной фирменный: тёмно-синий (заголовки цен, вкладки, панель для парков)
+    #0e2748  самый глубокий синий: подвал
+    #c2490f  тёплый акцент: только кнопки «Записаться» и мелкие отметки
+    #a83d0a  акцент при наведении
+    #f4f7fb  текст на тёмно-синем
+    #b8c5d6  второстепенный текст на тёмно-синем
+    #b3261e  ошибки в форме
+  Шрифт: Manrope (subset cyrillic), одно семейство.
+  Скругления: фото и карточки 16px, кнопки и поля 10px, чипы и вкладки полностью круглые.
+*/
+.v5{
+  --bg:#f2f5f9; --surface:#fbfcfe; --tint:#e7edf5;
+  --ink:#0f1d2e;      /* на #f2f5f9: 15,54:1; на #fbfcfe: 16,56:1 */
+  --muted:#4b5a6d;    /* на #f2f5f9: 6,44:1; на #fbfcfe: 6,86:1; на #e7edf5: 5,98:1 */
+  --navy:#163a6b;     /* на #f2f5f9: 10,37:1; на #fbfcfe: 11,05:1; на #e7edf5: 9,63:1 */
+  --deep:#0e2748;
+  --accent:#c2490f;   /* белый #fbfcfe на нём: 4,81:1 */
+  --accent-h:#a83d0a; /* #fbfcfe на нём: 6,13:1 */
+  --on-dark:#f4f7fb;  /* на #0e2748: 13,94:1 */
+  --on-dark-m:#b8c5d6;/* на #0e2748: 8,55:1; на #163a6b: 6,48:1 */
+  --err:#b3261e;      /* на #fbfcfe: 6,37:1; на #f2f5f9: 5,98:1 */
+  --line:rgb(15 29 46 / .12);
+  --line-strong:rgb(15 29 46 / .5); /* рамка полей на #fbfcfe: 3,31:1 */
+  --shadow:0 1px 2px rgb(22 58 107 / .06), 0 12px 32px -12px rgb(22 58 107 / .18);
+  --r-card:16px; --r-ctl:10px;
+  --wrap:1240px;
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Manrope", system-ui, sans-serif; font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:clip;
+}
+.v5 *,.v5 *::before,.v5 *::after{box-sizing:border-box}
+.v5 img{display:block; max-width:100%; height:auto; object-fit:cover}
+.v5 a{color:inherit}
+.v5 h1,.v5 h2,.v5 h3,.v5 p,.v5 ul,.v5 ol{margin:0}
+.v5 ul,.v5 ol{padding:0; list-style:none}
+.v5 .wrap{width:100%; max-width:var(--wrap); margin:0 auto; padding:0 20px}
+.v5 .nb{white-space:nowrap}
+.v5 :focus-visible{outline:3px solid var(--navy); outline-offset:3px; border-radius:4px}
+.v5 [id]{scroll-margin-top:84px}
+.v5 .sr{position:absolute!important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+
+/* ---------- кнопки ---------- */
+.v5 .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:48px; padding:0 22px;
+  border-radius:var(--r-ctl); border:2px solid transparent; font:700 16px/1.1 "Manrope", sans-serif; text-decoration:none;
+  white-space:nowrap; cursor:pointer; transition:background-color .2s, color .2s, border-color .2s, transform .15s}
+.v5 .btn:active{transform:translateY(1px)}
+.v5 .btn-acc{background:var(--accent); color:var(--surface)} /* #fbfcfe на #c2490f: 4,81:1 */
+.v5 .btn-acc:hover{background:var(--accent-h)}                /* #fbfcfe на #a83d0a: 6,13:1 */
+.v5 .btn-line{background:var(--surface); color:var(--navy); border-color:var(--navy)} /* #163a6b на #fbfcfe: 11,05:1 */
+.v5 .btn-line:hover{background:var(--tint)}                  /* #163a6b на #e7edf5: 9,63:1 */
+.v5 .btn-light{background:var(--surface); color:var(--navy)}  /* на тёмной панели: #163a6b на #fbfcfe 11,05:1 */
+.v5 .btn-light:hover{background:var(--tint)}
+
+/* ---------- верхняя строка и шапка ---------- */
+.v5 .topbar{background:var(--surface); border-bottom:1px solid var(--line); font-size:14px; color:var(--muted)} /* 6,86:1 */
+.v5 .topbar .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:44px}
+.v5 .topbar a{text-decoration:none; color:var(--navy); font-weight:700; min-height:44px; display:inline-flex; align-items:center} /* 11,05:1 */
+.v5 .topbar .tb-addr,.v5 .topbar .tb-rate,.v5 .topbar .tb-more{display:none}
+.v5 .topbar .tb-hours{white-space:nowrap}
+.v5 .topbar .tb-left{display:flex; gap:24px; align-items:center}
+
+.v5 .hdr{position:sticky; top:0; z-index:20; background:rgb(251 252 254 / .94); backdrop-filter:saturate(1.4) blur(10px);
+  -webkit-backdrop-filter:saturate(1.4) blur(10px); border-bottom:1px solid var(--line)}
+.v5 .hdr .wrap{display:flex; align-items:center; gap:16px; height:64px}
+.v5 .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); margin-right:auto; min-height:44px}
+.v5 .brand svg{flex:none}
+.v5 .brand b{font-weight:800; font-size:18px; letter-spacing:-.01em; line-height:1.1}
+.v5 .brand small{display:block; font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0} /* 6,86:1 */
+.v5 .nav{display:none; gap:4px}
+.v5 .nav a{text-decoration:none; font-weight:600; font-size:15px; color:var(--ink); padding:12px 12px; display:inline-flex; align-items:center; min-height:44px; border-radius:var(--r-ctl)} /* 16,56:1 */
+.v5 .nav a:hover{background:var(--tint)} /* #0f1d2e на #e7edf5: 14,43:1 */
+.v5 .hdr-tel{display:none; text-decoration:none; font-weight:800; font-size:17px; color:var(--navy); white-space:nowrap; min-height:44px; align-items:center} /* 11,05:1 */
+.v5 .hdr .btn{min-height:44px; padding:0 18px; font-size:15px}
+
+/* ---------- первый экран ---------- */
+.v5 .hero{padding:20px 0 48px}
+.v5 .hero-grid{display:grid; gap:24px}
+.v5 .hero-photo{position:relative; order:-1}
+.v5 .hero-photo img{width:100%; aspect-ratio:16/9; border-radius:var(--r-card); object-position:30% 60%}
+.v5 .eyebrow{display:inline-block; font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--navy); margin-bottom:12px} /* 10,37:1 */
+.v5 .hero h1{font-size:clamp(30px, 7.4vw, 56px); line-height:1.08; font-weight:800; letter-spacing:-.02em; color:var(--ink); max-width:15ch} /* 15,54:1 */
+.v5 .hero-sub{margin-top:16px; font-size:clamp(16px, 2.1vw, 19px); color:var(--muted); max-width:46ch} /* 6,44:1 */
+.v5 .hero-cta{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:24px}
+.v5 .hero-cta .btn{min-height:52px; font-size:17px}
+.v5 .visit{position:relative; display:grid; grid-template-columns:1fr 1fr; column-gap:16px; margin:-30px 12px 0; padding:12px 14px; background:var(--surface); border-radius:var(--r-card); box-shadow:var(--shadow)}
+.v5 .visit dt{font-size:13px; color:var(--muted); grid-row:1} /* 6,86:1 */
+.v5 .visit dd{margin:0; grid-row:2; font-weight:700; font-size:14px; line-height:1.35; color:var(--ink)} /* 16,56:1 */
+
+/* ---------- выбор модели (радиокнопки + CSS, без скрипта) ---------- */
+.v5 .pick > input{position:absolute; opacity:0; width:1px; height:1px; pointer-events:none}
+.v5 .sw{display:none}
+.v5 #m-gazel:checked ~ * .sw-gazel,
+.v5 #m-sobol:checked ~ * .sw-sobol,
+.v5 #m-gazon:checked ~ * .sw-gazon,
+.v5 #m-uaz:checked ~ * .sw-uaz{display:var(--d, block)}
+
+.v5 .models{padding:56px 0; background:var(--surface); border-block:1px solid var(--line)}
+.v5 .sec-h{font-size:clamp(26px, 5vw, 40px); line-height:1.15; font-weight:800; letter-spacing:-.015em; color:var(--ink)} /* на #fbfcfe 16,56:1; на #f2f5f9 15,54:1 */
+.v5 .sec-p{margin-top:10px; color:var(--muted); max-width:60ch} /* 6,86:1 / 6,44:1 */
+.v5 .tabs{display:grid; grid-template-columns:repeat(4, auto); justify-content:start; gap:8px; margin:24px 0 20px; overflow-x:auto; scrollbar-width:none; padding:2px}
+.v5 .tabs::-webkit-scrollbar{display:none}
+.v5 .tab{flex:none; display:inline-flex; align-items:center; min-height:46px; padding:0 20px; border-radius:999px; background:var(--tint);
+  color:var(--navy); font-weight:700; font-size:16px; cursor:pointer; transition:background-color .2s, color .2s; user-select:none} /* 9,63:1 */
+.v5 .tab:hover{background:rgb(22 58 107 / .14)}
+.v5 #m-gazel:checked ~ * label.tab[for="m-gazel"],
+.v5 #m-sobol:checked ~ * label.tab[for="m-sobol"],
+.v5 #m-gazon:checked ~ * label.tab[for="m-gazon"],
+.v5 #m-uaz:checked ~ * label.tab[for="m-uaz"]{background:var(--navy); color:var(--surface)} /* #fbfcfe на #163a6b: 11,05:1 */
+.v5 #m-gazel:focus-visible ~ * label[for="m-gazel"],
+.v5 #m-sobol:focus-visible ~ * label[for="m-sobol"],
+.v5 #m-gazon:focus-visible ~ * label[for="m-gazon"],
+.v5 #m-uaz:focus-visible ~ * label[for="m-uaz"]{outline:3px solid var(--accent); outline-offset:2px}
+
+.v5 .stage{--d:grid; gap:20px; animation:v5-fade .45s cubic-bezier(.16,1,.3,1)}
+.v5 .stage-photos{display:grid; gap:10px; grid-template-columns:1fr 1fr}
+.v5 .stage-photos img{width:100%; aspect-ratio:4/3; border-radius:var(--r-card); grid-column:1 / -1}
+.v5 .stage-photos img + img{grid-column:auto; aspect-ratio:4/3}
+.v5 .stage h3{font-size:clamp(24px, 4vw, 32px); font-weight:800; letter-spacing:-.01em; line-height:1.15}
+.v5 .stage p{margin-top:10px; color:var(--muted); max-width:44ch} /* 6,86:1 */
+.v5 .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px}
+.v5 .chips li{padding:6px 12px; border-radius:999px; background:var(--tint); color:var(--navy); font-weight:600; font-size:14px} /* 9,63:1 */
+.v5 .fact{margin-top:20px; padding:16px 18px; border-radius:var(--r-card); background:var(--bg); display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:4px 16px}
+.v5 .fact span{color:var(--muted); font-size:15px} /* на #f2f5f9: 6,44:1 */
+.v5 .fact b{font-size:22px; font-weight:800; color:var(--navy); letter-spacing:0; white-space:nowrap} /* 10,37:1 */
+.v5 .stage .btn{margin-top:16px}
+
+/* ---------- цены ---------- */
+.v5 .prices{padding:56px 0}
+.v5 .prices-head{display:grid; gap:14px}
+.v5 .prices-head .sec-h .sw{--d:inline; color:var(--navy)} /* 10,37:1 */
+.v5 .mini-tabs{display:flex; flex-wrap:wrap; gap:6px}
+.v5 .mini-tabs .tab{min-height:44px; padding:0 16px; font-size:15px; background:var(--surface); box-shadow:inset 0 0 0 1px var(--line)} /* #163a6b на #fbfcfe: 11,05:1 */
+.v5 .note{font-size:14px; color:var(--muted); margin-top:4px} /* 6,44:1 */
+.v5 .cards{display:grid; gap:16px; margin-top:28px}
+.v5 .pc{background:var(--surface); border-radius:var(--r-card); overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column;
+  transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s}
+.v5 .pc img{width:100%; aspect-ratio:16/8}
+.v5 .pc-body{padding:16px 18px 18px}
+.v5 .pc h3{font-size:19px; font-weight:800; letter-spacing:-.005em; color:var(--ink)} /* 16,56:1 */
+.v5 .pc ul{margin-top:8px}
+.v5 .pc li{display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:9px 0; font-size:15px; color:var(--ink)}
+.v5 .pc li + li{border-top:1px solid var(--line)}
+.v5 .pc li span{min-width:0}
+.v5 .pc li b{flex:none; font-weight:800; color:var(--navy); letter-spacing:0; white-space:nowrap} /* 11,05:1 */
+.v5 .pc li.sw{--d:flex; display:none}
+.v5 .pc-hint{margin-top:10px; font-size:14px; color:var(--muted)} /* на #fbfcfe: 6,86:1 */
+
+/* ---------- как записаться ---------- */
+.v5 .steps{padding:56px 0; background:var(--tint)}
+.v5 .steps ol{display:grid; gap:14px; margin-top:28px; counter-reset:st}
+.v5 .steps li{counter-increment:st; position:relative; padding:20px 20px 22px 76px; background:var(--surface); border-radius:var(--r-card)}
+.v5 .steps li::before{content:counter(st); position:absolute; left:20px; top:18px; width:40px; height:40px; border-radius:999px; background:var(--navy);
+  color:var(--surface); font-weight:800; font-size:18px; display:grid; place-items:center; letter-spacing:0} /* #fbfcfe на #163a6b: 11,05:1 */
+.v5 .steps h3{font-size:18px; font-weight:800; line-height:1.3}
+.v5 .steps p{margin-top:6px; color:var(--muted); font-size:15px} /* 6,86:1 */
+.v5 .steps .sec-h{color:var(--ink)} /* на #e7edf5: 14,43:1 */
+.v5 .steps .sec-p{color:var(--muted)} /* на #e7edf5: 5,98:1 */
+
+/* ---------- автопарки ---------- */
+.v5 .park{padding:56px 0 0}
+.v5 .park-box{display:grid; background:var(--navy); color:var(--surface); border-radius:var(--r-card); overflow:hidden} /* #fbfcfe на #163a6b: 11,05:1 */
+.v5 .park-box img{width:100%; aspect-ratio:16/9; object-position:20% 60%}
+.v5 .park-text{padding:26px 22px 30px}
+.v5 .park .eyebrow{color:var(--on-dark-m)} /* #b8c5d6 на #163a6b: 6,48:1 */
+.v5 .park h2{font-size:clamp(24px, 4.4vw, 36px); line-height:1.15; font-weight:800; letter-spacing:-.01em}
+.v5 .park p{margin-top:12px; color:var(--on-dark-m); max-width:48ch} /* 6,48:1 */
+.v5 .park .btn{margin-top:22px}
+
+/* ---------- запись ---------- */
+.v5 .book{padding:56px 0}
+.v5 .book-grid{display:grid; gap:24px; align-items:start}
+.v5 .form{background:var(--surface); border-radius:var(--r-card); box-shadow:var(--shadow); padding:22px 18px 24px; margin-top:20px}
+.v5 .field{display:grid; gap:6px; margin-bottom:16px; align-content:start}
+.v5 .field label{font-weight:700; font-size:15px; color:var(--ink)} /* 16,56:1 */
+.v5 .field label small{font-weight:500; color:var(--muted)} /* 6,86:1 */
+.v5 .field input,.v5 .field select,.v5 .field textarea{width:100%; min-height:50px; padding:12px 14px; border:1.5px solid var(--line-strong); border-radius:var(--r-ctl);
+  background:var(--surface); color:var(--ink); font:500 16px/1.4 "Manrope", sans-serif; transition:border-color .2s, box-shadow .2s} /* текст 16,56:1, рамка 3,31:1 */
+.v5 .field textarea{min-height:104px; resize:vertical}
+.v5 .field select{appearance:none; -webkit-appearance:none; cursor:pointer;
+  background-image:linear-gradient(45deg, transparent 50%, #163a6b 50%), linear-gradient(135deg, #163a6b 50%, transparent 50%);
+  background-position:calc(100% - 20px) 50%, calc(100% - 14px) 50%; background-size:6px 6px; background-repeat:no-repeat; padding-right:40px}
+.v5 .field input::placeholder,.v5 .field textarea::placeholder{color:var(--muted); opacity:1} /* 6,86:1 */
+.v5 .field input:focus,.v5 .field select:focus,.v5 .field textarea:focus{outline:none; border-color:var(--navy); box-shadow:0 0 0 3px rgb(22 58 107 / .22)}
+.v5 .field .hint{font-size:13px; color:var(--muted)} /* 6,86:1 */
+.v5 .field .err{font-size:14px; font-weight:600; color:var(--err); min-height:0} /* 6,37:1 */
+.v5 .field .err:empty{display:none}
+.v5 .field.bad input,.v5 .field.bad textarea,.v5 .field.bad select{border-color:var(--err)}
+.v5 .trap{position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); opacity:0; pointer-events:none}
+.v5 .form .btn{width:100%; min-height:54px; font-size:17px}
+.v5 .form .legal{margin-top:12px; font-size:13px; color:var(--muted)} /* 6,86:1 */
+.v5 .ok{display:none; margin-top:16px; padding:14px 16px; border-radius:var(--r-ctl); background:var(--tint); border-left:4px solid var(--navy); font-weight:600; color:var(--ink)} /* 14,43:1 */
+.v5 .ok.on{display:block; animation:v5-fade .4s ease}
+.v5 .direct{background:var(--surface); border-radius:var(--r-card); padding:22px 18px; border:1px solid var(--line)}
+.v5 .direct h3{font-size:20px; font-weight:800}
+.v5 .direct p{margin-top:8px; color:var(--muted); font-size:15px} /* 6,86:1 */
+.v5 .direct .btns{display:grid; gap:10px; margin-top:18px}
+.v5 .direct .big-tel{display:flex; align-items:center; min-height:44px; margin-top:16px; font-size:24px; font-weight:800; color:var(--navy); text-decoration:none; letter-spacing:0} /* 11,05:1 */
+
+/* ---------- контакты ---------- */
+.v5 .contacts{padding:0 0 56px}
+.v5 .c-grid{display:grid; gap:1px; background:var(--line); border-radius:var(--r-card); overflow:hidden; margin-top:24px; border:1px solid var(--line)}
+.v5 .c-item{background:var(--surface); padding:20px 18px}
+.v5 .c-item dt{font-size:13px; font-weight:600; color:var(--muted)} /* 6,86:1 */
+.v5 .c-item dd{margin:6px 0 0; font-size:18px; font-weight:700; line-height:1.35; color:var(--ink)} /* 16,56:1 */
+.v5 .c-item a.lnk{display:inline-flex; align-items:center; min-height:44px; margin-top:4px; color:var(--navy); font-weight:700; font-size:15px; text-underline-offset:3px} /* 11,05:1 */
+.v5 .c-item .rate{font-size:34px; font-weight:800; color:var(--navy); letter-spacing:0; line-height:1.1} /* 11,05:1 */
+.v5 .c-item dd a.tel{text-decoration:none; color:var(--ink); display:inline-flex; min-height:44px; align-items:center}
+
+/* ---------- подвал ---------- */
+.v5 .foot{background:var(--deep); color:var(--on-dark); padding:40px 0 32px; font-size:15px} /* 13,94:1 */
+.v5 .foot-grid{display:grid; gap:20px}
+.v5 .foot .brand{color:var(--on-dark)}
+.v5 .foot .brand small{color:var(--on-dark-m)} /* 8,55:1 */
+.v5 .foot p{color:var(--on-dark-m)} /* 8,55:1 */
+.v5 .foot a{color:var(--on-dark); text-underline-offset:3px} /* 13,94:1 */
+.v5 .foot .f-tel{font-weight:800; font-size:18px; text-decoration:none; display:inline-flex; min-height:44px; align-items:center}
+.v5 .foot details{margin-top:24px; border-top:1px solid rgb(244 247 251 / .16); padding-top:16px}
+.v5 .foot summary{cursor:pointer; color:var(--on-dark); font-weight:600; min-height:44px; display:flex; align-items:center} /* 13,94:1 */
+.v5 .foot details ul{margin-top:10px; display:grid; gap:6px; font-size:13px; color:var(--on-dark-m)} /* 8,55:1 */
+.v5 .foot details li{overflow-wrap:anywhere}
+.v5 .foot details li a{display:inline-flex; align-items:center; min-height:44px}
+
+/* ---------- движение ---------- */
+@keyframes v5-fade{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+@media (prefers-reduced-motion:no-preference){
+  .v5 .hero-text > *{animation:v5-fade .6s cubic-bezier(.16,1,.3,1) both}
+  .v5 .hero-text > *:nth-child(2){animation-delay:.06s}
+  .v5 .hero-text > *:nth-child(3){animation-delay:.12s}
+  .v5 .hero-text > *:nth-child(4){animation-delay:.18s}
+  @supports (animation-timeline:view()){
+    .v5 .pc,.v5 .steps li{animation:v5-fade linear both; animation-timeline:view(); animation-range:entry 0% entry 40%}
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .v5 *,.v5 *::before,.v5 *::after{animation:none!important; transition:none!important}
+}
+@media (hover:hover){
+  .v5 .pc:hover{transform:translateY(-3px); box-shadow:0 2px 4px rgb(22 58 107 / .08), 0 22px 40px -16px rgb(22 58 107 / .3)}
+}
+
+/* ---------- ширины ---------- */
+@media (min-width:640px){
+  .v5 .wrap{padding:0 28px}
+  .v5 .cards{grid-template-columns:1fr 1fr}
+  .v5 .hero-cta{display:flex; flex-wrap:wrap}
+  .v5 .visit{grid-template-columns:auto auto; column-gap:28px; justify-content:start}
+  .v5 .visit dd{font-size:15px}
+  .v5 .c-grid{grid-template-columns:1fr 1fr}
+  .v5 .direct .btns{grid-template-columns:1fr 1fr}
+  .v5 .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media (min-width:768px){
+  .v5 .topbar .tb-addr,.v5 .topbar .tb-more{display:inline}
+  .v5 .hdr-tel{display:inline-flex}
+  .v5 .hdr .wrap{height:72px}
+  .v5 .steps ol{grid-template-columns:repeat(3, 1fr)}
+  .v5 .steps li{padding:76px 22px 24px 22px}
+  .v5 .steps li::before{top:22px; left:22px}
+  .v5 .park-box{grid-template-columns:1fr 1fr}
+  .v5 .park-box img{aspect-ratio:auto; height:100%; min-height:320px; order:2}
+  .v5 .park-text{padding:44px 40px; align-self:center}
+  .v5 .stage{grid-template-columns:1.25fr 1fr; align-items:center; gap:36px}
+  .v5 .models,.v5 .prices,.v5 .steps,.v5 .book{padding:80px 0}
+  .v5 .park{padding-top:80px}
+  .v5 .contacts{padding-bottom:80px}
+}
+@media (min-width:640px) and (max-width:1023px){
+  .v5 .hero-photo img{aspect-ratio:21/9}
+  .v5 .hero h1{font-size:44px; max-width:22ch}
+}
+@media (min-width:1024px){
+  .v5 .topbar .tb-rate{display:inline-flex}
+  .v5 .hero{padding:40px 0 72px}
+  .v5 .hero-grid{grid-template-columns:5fr 6fr; align-items:center; gap:48px}
+  .v5 .hero-photo{order:0}
+  .v5 .hero-photo img{aspect-ratio:5/4; object-position:28% 50%}
+  .v5 .visit{position:absolute; left:-36px; bottom:28px; margin:0; padding:16px 20px}
+  .v5 .hero-cta{margin-top:30px}
+  .v5 .prices-head{grid-template-columns:1fr auto; align-items:end}
+  .v5 .cards{grid-template-columns:repeat(4, 1fr)}
+  .v5 .pc img{aspect-ratio:4/3}
+  .v5 .book-grid{grid-template-columns:1.35fr 1fr; gap:40px}
+  .v5 .form{padding:30px 30px 32px}
+  .v5 .form .row{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .v5 .direct{margin-top:96px; padding:28px}
+  .v5 .direct .btns{grid-template-columns:1fr}
+  .v5 .c-grid{grid-template-columns:1.4fr 1fr 1fr 1fr}
+  .v5 .foot-grid{grid-template-columns:1.4fr 1fr 1fr}
+}
+@media (min-width:1180px){
+  .v5 .nav{display:flex}
+}
+@media (max-width:479px){
+  .v5 .tabs{grid-template-columns:repeat(4, 1fr)}
+  .v5 .tabs .tab{padding:0 6px; justify-content:center; font-size:15px}
+}
+@media (max-width:379px){
+  .v5 .wrap{padding:0 16px}
+  .v5 .brand small{display:none}
+  .v5 .hero-cta .btn{padding:0 12px; font-size:16px}
+  .v5 .tab{padding:0 16px}
+}
+</style>
+</head>
+<body class="v5">
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="tb-left">
+      <span class="tb-addr">Оренбург, пр. Братьев Коростелёвых, 179/4</span>
+      <span class="tb-hours">Пн-сб 09:00-18:00<span class="tb-more">, вс выходной</span></span>
+    </div>
+    <a class="tb-rate" href="https://yandex.ru/maps/org/avtoservis/204003473422/" target="_blank" rel="noopener">4,1 на Яндекс Картах</a>
+    <a class="tb-tel" href="tel:+79228590000">+7 (922) 859-00-00</a>
+  </div>
+</div>
+
+<header class="hdr">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="СТО Грузовик, в начало страницы">
+      <svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true"><rect width="38" height="38" rx="10" fill="#163a6b"/><path d="M10 9h18v5.5H15.5V29H10z" fill="#fbfcfe"/><circle cx="24.5" cy="24.5" r="4.5" fill="#c2490f"/></svg>
+      <span><b>СТО Грузовик</b><small>ремонт ГАЗ и УАЗ</small></span>
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#modeli">Модели</a>
+      <a href="#ceny">Цены</a>
+      <a href="#kak">Как записаться</a>
+      <a href="#park">Автопаркам</a>
+      <a href="#kontakty">Контакты</a>
+    </nav>
+    <a class="hdr-tel" href="tel:+79228590000">+7 (922) 859-00-00</a>
+    <a class="btn btn-acc" href="#zapis">Записаться</a>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero" aria-labelledby="h1">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <span class="eyebrow">Специализируемся на ГАЗ и УАЗ</span>
+      <h1 id="h1">Ремонт ГАЗелей, ГАЗонов и&nbsp;УАЗов в&nbsp;Оренбурге</h1>
+      <p class="hero-sub">Диагностика, двигатель, ходовая и развал-схождение для коммерческого транспорта. Цену называем до начала работ.</p>
+      <div class="hero-cta">
+        <a class="btn btn-acc" href="#zapis">Записаться</a>
+        <a class="btn btn-line" href="tel:+79228590000">Позвонить</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="photos/gazelle-next.jpg" alt="ГАЗель Next с фургоном едет по городской улице" width="1408" height="900" fetchpriority="high">
+      <dl class="visit">
+        <dt>Адрес</dt><dd>Пр. Братьев Коростелёвых, 179/4</dd>
+        <dt>Часы работы</dt><dd><span class="nb">Пн-сб 09:00-18:00,</span> <span class="nb">вс выходной</span></dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- Выбор модели: радиокнопки стоят перед обоими разделами, вкладки и подборка цен переключаются CSS, без скрипта -->
+<div class="pick">
+  <input type="radio" name="model" id="m-gazel" checked aria-label="ГАЗель">
+  <input type="radio" name="model" id="m-sobol" aria-label="Соболь">
+  <input type="radio" name="model" id="m-gazon" aria-label="ГАЗон">
+  <input type="radio" name="model" id="m-uaz" aria-label="УАЗ">
+
+  <section class="models" id="modeli" aria-labelledby="models-h">
+    <div class="wrap">
+      <h2 class="sec-h" id="models-h">Какая у вас машина?</h2>
+      <p class="sec-p">Берём только ГАЗ и УАЗ, поэтому эти машины знаем наизусть.</p>
+      <div class="tabs" role="presentation">
+        <label class="tab" for="m-gazel">ГАЗель</label>
+        <label class="tab" for="m-sobol">Соболь</label>
+        <label class="tab" for="m-gazon">ГАЗон</label>
+        <label class="tab" for="m-uaz">УАЗ</label>
+      </div>
+
+      <!-- ДЕМО-ЦЕНЫ: заменить на цены сервиса -->
+      <div class="stage sw sw-gazel">
+        <div class="stage-photos">
+          <img src="photos/gazelle-business.jpg" alt="ГАЗель Бизнес, бортовая с тентом" width="1600" height="1270" loading="lazy">
+        </div>
+        <div>
+          <h3>ГАЗель</h3>
+          <p>Бизнес, Next и машины прошлых поколений: бортовые, тентованные, фургоны.</p>
+          <ul class="chips"><li>ГАЗель Next</li><li>ГАЗель Бизнес</li><li>прошлые поколения</li></ul>
+          <div class="fact"><span>Развал-схождение</span><b>от 1&nbsp;800&nbsp;₽</b></div>
+          <a class="btn btn-line" href="#ceny">Цены на ремонт ГАЗели</a>
+        </div>
+      </div>
+
+      <div class="stage sw sw-sobol">
+        <div class="stage-photos">
+          <img src="photos/gaz-sobol.jpg" alt="ГАЗ Соболь, белый цельнометаллический фургон" width="1360" height="1071" loading="lazy">
+        </div>
+        <div>
+          <h3>Соболь</h3>
+          <p>Цельнометаллические фургоны и микроавтобусы, в том числе новые Соболь NN.</p>
+          <ul class="chips"><li>Соболь NN</li><li>Соболь Бизнес</li><li>фургоны и микроавтобусы</li></ul>
+          <div class="fact"><span>Развал-схождение</span><b>от 1&nbsp;800&nbsp;₽</b></div>
+          <a class="btn btn-line" href="#ceny">Цены на ремонт Соболя</a>
+        </div>
+      </div>
+
+      <div class="stage sw sw-gazon">
+        <div class="stage-photos">
+          <img src="photos/gazon-next.jpg" alt="ГАЗон Next с оранжевым кузовом-самосвалом" width="1600" height="1145" loading="lazy">
+        </div>
+        <div>
+          <h3>ГАЗон Next</h3>
+          <p>Среднетоннажные грузовики: бортовые, самосвалы, шасси под надстройки.</p>
+          <ul class="chips"><li>ГАЗон Next</li><li>самосвалы</li><li>бортовые</li></ul>
+          <div class="fact"><span>Развал-схождение</span><b>от 2&nbsp;500&nbsp;₽</b></div>
+          <a class="btn btn-line" href="#ceny">Цены на ремонт ГАЗона</a>
+        </div>
+      </div>
+
+      <div class="stage sw sw-uaz">
+        <div class="stage-photos">
+          <img src="photos/uaz-452-bukhanka.jpg" alt="УАЗ-452 Буханка цвета хаки с багажником на крыше" width="1456" height="1200" loading="lazy">
+          <img src="photos/uaz-patriot.jpg" alt="Белый УАЗ Патриот" width="1600" height="1085" loading="lazy">
+          <img src="photos/uaz-profi.jpg" alt="УАЗ Профи с фургоном" width="1600" height="1057" loading="lazy">
+        </div>
+        <div>
+          <h3>УАЗ</h3>
+          <p>Буханка, Патриот и Профи: от замены масла до ремонта мостов и КПП.</p>
+          <ul class="chips"><li>УАЗ Буханка</li><li>УАЗ Патриот</li><li>УАЗ Профи</li></ul>
+          <div class="fact"><span>Развал-схождение</span><b>от 1&nbsp;800&nbsp;₽</b></div>
+          <a class="btn btn-line" href="#ceny">Цены на ремонт УАЗа</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="prices" id="ceny" aria-labelledby="prices-h">
+    <div class="wrap">
+      <div class="prices-head">
+        <div>
+          <h2 class="sec-h" id="prices-h">Цены на ремонт <span class="sw sw-gazel">ГАЗели</span><span class="sw sw-sobol">Соболя</span><span class="sw sw-gazon">ГАЗона</span><span class="sw sw-uaz">УАЗа</span></h2>
+          <p class="note">Цены ориентировочные, точную стоимость скажем после осмотра.</p>
+        </div>
+        <div class="mini-tabs" role="presentation">
+          <label class="tab" for="m-gazel">ГАЗель</label>
+          <label class="tab" for="m-sobol">Соболь</label>
+          <label class="tab" for="m-gazon">ГАЗон</label>
+          <label class="tab" for="m-uaz">УАЗ</label>
+        </div>
+      </div>
+
+      <!-- ДЕМО-ЦЕНЫ: заменить на цены сервиса -->
+      <div class="cards">
+        <article class="pc">
+          <img src="photos/part-engine.jpg" alt="Снятый двигатель на полу мастерской" width="1600" height="1200" loading="lazy">
+          <div class="pc-body">
+            <h3>Двигатель</h3>
+            <ul>
+              <li><span>Компьютерная диагностика двигателя</span><b>от 1&nbsp;000&nbsp;₽</b></li>
+              <li><span>Замена масла и фильтров</span><b>от 800&nbsp;₽</b></li>
+              <li><span>Капитальный ремонт двигателя</span><b>от 35&nbsp;000&nbsp;₽</b></li>
+            </ul>
+          </div>
+        </article>
+        <article class="pc">
+          <img src="photos/part-transmission-clutch.jpg" alt="Изношенный диск сцепления среди инструментов" width="1600" height="1200" loading="lazy">
+          <div class="pc-body">
+            <h3>Трансмиссия</h3>
+            <ul>
+              <li><span>Замена сцепления</span><b>от 5&nbsp;000&nbsp;₽</b></li>
+              <li><span>Ремонт КПП</span><b>от 7&nbsp;000&nbsp;₽</b></li>
+              <li><span>Ремонт заднего моста</span><b>от 6&nbsp;000&nbsp;₽</b></li>
+            </ul>
+          </div>
+        </article>
+        <article class="pc">
+          <img src="photos/part-suspension.jpg" alt="Стойка амортизатора с пружиной, ступица и тормозной диск" width="1600" height="1200" loading="lazy">
+          <div class="pc-body">
+            <h3>Ходовая</h3>
+            <ul>
+              <li><span>Диагностика подвески</span><b>от 500&nbsp;₽</b></li>
+              <li><span>Замена шаровой опоры</span><b>от 1&nbsp;200&nbsp;₽</b></li>
+              <li><span>Замена амортизаторов (пара)</span><b>от 1&nbsp;800&nbsp;₽</b></li>
+            </ul>
+          </div>
+        </article>
+        <article class="pc">
+          <img src="photos/part-brakes.jpg" alt="Тормозной диск и суппорт крупным планом" width="1424" height="1068" loading="lazy">
+          <div class="pc-body">
+            <h3>Тормоза</h3>
+            <ul>
+              <li><span>Замена колодок (ось)</span><b>от 900&nbsp;₽</b></li>
+              <li><span>Замена дисков (ось)</span><b>от 1&nbsp;800&nbsp;₽</b></li>
+              <li><span>Прокачка тормозов</span><b>от 1&nbsp;000&nbsp;₽</b></li>
+            </ul>
+          </div>
+        </article>
+        <article class="pc">
+          <img src="photos/part-timing.jpg" alt="Цепь привода ГРМ и звёздочки распредвалов" width="1600" height="1200" loading="lazy">
+          <div class="pc-body">
+            <h3>ГРМ</h3>
+            <ul>
+              <li><span>Замена цепи ГРМ</span><b>от 8&nbsp;000&nbsp;₽</b></li>
+              <li><span>Замена ремня ГРМ</span><b>от 4&nbsp;500&nbsp;₽</b></li>
+            </ul>
+          </div>
+        </article>
+        <article class="pc">
+          <img src="photos/part-diagnostics.jpg" alt="Разъём диагностики OBD в руке рядом с ноутбуком" width="1424" height="1068" loading="lazy">
+          <div class="pc-body">
+            <h3>Диагностика</h3>
+            <ul>
+              <li><span>Компьютерная диагностика</span><b>от 1&nbsp;000&nbsp;₽</b></li>
+              <li><span>Поиск неисправности электрики</span><b>от 1&nbsp;500&nbsp;₽</b></li>
+            </ul>
+          </div>
+        </article>
+        <article class="pc">
+          <img src="photos/part-wheel-alignment.jpg" alt="Колесо на стенде развала-схождения с мишенью" width="1600" height="1200" loading="lazy">
+          <div class="pc-body">
+            <h3>Развал-схождение</h3>
+            <ul>
+              <li class="sw sw-gazel"><span>ГАЗель, Соболь</span><b>от 1&nbsp;800&nbsp;₽</b></li>
+              <li class="sw sw-sobol"><span>ГАЗель, Соболь</span><b>от 1&nbsp;800&nbsp;₽</b></li>
+              <li class="sw sw-gazon"><span>ГАЗон</span><b>от 2&nbsp;500&nbsp;₽</b></li>
+              <li class="sw sw-uaz"><span>УАЗ</span><b>от 1&nbsp;800&nbsp;₽</b></li>
+            </ul>
+            <p class="pc-hint">Цена зависит от модели. Другую модель выберите вкладкой выше.</p>
+          </div>
+        </article>
+        <article class="pc">
+          <img src="photos/part-turbo.jpg" alt="Турбокомпрессор на дизельном двигателе" width="1600" height="1200" loading="lazy">
+          <div class="pc-body">
+            <h3>Турбина и топливо</h3>
+            <ul>
+              <li><span>Снятие и установка турбины</span><b>от 4&nbsp;000&nbsp;₽</b></li>
+              <li><span>Чистка форсунок</span><b>от 3&nbsp;000&nbsp;₽</b></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="steps" id="kak" aria-labelledby="steps-h">
+  <div class="wrap">
+    <h2 class="sec-h" id="steps-h">Как записаться</h2>
+    <p class="sec-p">Без сюрпризов в счёте: сначала осмотр и цена, потом ремонт.</p>
+    <ol>
+      <li><h3>Позвоните или оставьте заявку</h3><p>Звоните в рабочие часы или заполните форму на сайте.</p></li>
+      <li><h3>Мастер перезвонит и назовёт время</h3><p>Уточнит, что случилось с машиной, и подберёт день.</p></li>
+      <li><h3>Приезжаете на ремонт</h3><p>Осмотрим машину и назовём цену. Ремонт только после вашего согласия.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="park" id="park" aria-labelledby="park-h">
+  <div class="wrap">
+    <div class="park-box">
+      <img src="photos/uaz-profi.jpg" alt="УАЗ Профи с грузовым фургоном у здания" width="1600" height="1057" loading="lazy">
+      <div class="park-text">
+        <span class="eyebrow">Для автопарков</span>
+        <h2 id="park-h">Обслуживаете несколько машин? Обсудим условия</h2>
+        <p>Расскажите, сколько у вас ГАЗелей, ГАЗонов или УАЗов и какие работы нужны. Договоримся, как удобнее обслуживать парк.</p>
+        <a class="btn btn-light" href="tel:+79228590000">Позвонить</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="book" id="zapis" aria-labelledby="book-h">
+  <div class="wrap book-grid">
+    <div>
+      <h2 class="sec-h" id="book-h">Запись на ремонт</h2>
+      <p class="sec-p">Оставьте телефон, мастер перезвонит в рабочие часы и предложит время.</p>
+      <!-- ФОРМА-ВИТРИНА: отправка не подключена -->
+      <form class="form" id="lead" novalidate>
+        <div class="row">
+          <div class="field" data-f="name">
+            <label for="f-name">Имя</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" maxlength="60" placeholder="Например, Сергей" aria-describedby="e-name">
+            <span class="err" id="e-name" role="alert"></span>
+          </div>
+          <div class="field" data-f="phone">
+            <label for="f-phone">Телефон</label>
+            <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="40" placeholder="+7 (9__) ___-__-__" aria-describedby="h-phone e-phone">
+            <span class="hint" id="h-phone">Мобильный номер России</span>
+            <span class="err" id="e-phone" role="alert"></span>
+          </div>
+        </div>
+        <div class="field" data-f="model">
+          <label for="f-model">Модель</label>
+          <select id="f-model" name="model" aria-describedby="e-model">
+            <option value="" selected disabled>Выберите модель</option>
+            <option>ГАЗель</option>
+            <option>Соболь</option>
+            <option>ГАЗон</option>
+            <option>УАЗ Буханка</option>
+            <option>УАЗ Патриот</option>
+            <option>УАЗ Профи</option>
+            <option>другая</option>
+          </select>
+          <span class="err" id="e-model" role="alert"></span>
+        </div>
+        <div class="field" data-f="message">
+          <label for="f-msg">Что случилось <small>(необязательно)</small></label>
+          <textarea id="f-msg" name="message" maxlength="1000" placeholder="Например: стучит спереди справа на кочках" aria-describedby="e-message"></textarea>
+          <span class="err" id="e-message" role="alert"></span>
+        </div>
+        <div class="trap" aria-hidden="true">
+          <label for="f-website">Сайт</label>
+          <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <button class="btn btn-acc" type="submit">Записаться</button>
+        <p class="legal">Нажимая кнопку, вы соглашаетесь на обработку имени и телефона для записи на ремонт.</p>
+        <p class="ok" id="ok" role="status"></p>
+      </form>
+    </div>
+    <aside class="direct" aria-labelledby="direct-h">
+      <h3 id="direct-h">Удобнее голосом или в мессенджере?</h3>
+      <p>Пн-сб 09:00-18:00, воскресенье выходной. В WhatsApp тот же номер.</p>
+      <a class="big-tel" href="tel:+79228590000">+7 (922) 859-00-00</a>
+      <div class="btns">
+        <a class="btn btn-line" href="https://wa.me/79228590000" target="_blank" rel="noopener">Написать в WhatsApp</a>
+        <a class="btn btn-line" href="tel:+79228590000">Позвонить</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="contacts" id="kontakty" aria-labelledby="contacts-h">
+  <div class="wrap">
+    <h2 class="sec-h" id="contacts-h">Как нас найти</h2>
+    <dl class="c-grid">
+      <div class="c-item">
+        <dt>Адрес</dt>
+        <dd>Оренбург, проспект Братьев Коростелёвых, 179/4, 1 этаж</dd>
+        <a class="lnk" href="https://yandex.ru/maps/org/avtoservis/204003473422/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a>
+      </div>
+      <div class="c-item">
+        <dt>Часы работы</dt>
+        <dd>Пн-сб 09:00-18:00<br>Воскресенье выходной</dd>
+      </div>
+      <div class="c-item">
+        <dt>Телефон и WhatsApp</dt>
+        <dd><a class="tel" href="tel:+79228590000">+7 (922) 859-00-00</a></dd>
+      </div>
+      <div class="c-item">
+        <dt>Рейтинг на Яндекс Картах</dt>
+        <dd class="rate">4,1</dd>
+        <a class="lnk" href="https://yandex.ru/maps/org/avtoservis/204003473422/" target="_blank" rel="noopener">Смотреть оценки</a>
+      </div>
+    </dl>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" aria-label="СТО Грузовик, в начало страницы">
+          <svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true"><rect width="38" height="38" rx="10" fill="#fbfcfe"/><path d="M10 9h18v5.5H15.5V29H10z" fill="#163a6b"/><circle cx="24.5" cy="24.5" r="4.5" fill="#c2490f"/></svg>
+          <span><b>СТО Грузовик</b><small>ремонт ГАЗ и УАЗ</small></span>
+        </a>
+        <p style="margin-top:12px">ИП Кузнецов А.В.</p>
+      </div>
+      <div>
+        <p>Оренбург, проспект Братьев Коростелёвых, 179/4</p>
+        <p>Пн-сб 09:00-18:00, вс выходной</p>
+      </div>
+      <div>
+        <a class="f-tel" href="tel:+79228590000">+7 (922) 859-00-00</a>
+      </div>
+    </div>
+    <details>
+      <summary>Фото: Wikimedia Commons</summary>
+      <ul>
+        <li>ГАЗель Бизнес: GAZ Česká republika, CC BY-SA 4.0</li>
+        <li>ГАЗ Соболь: Artyom Svetlov, CC BY 4.0</li>
+        <li>УАЗ-452 Буханка: Jamshid Nurkulov, CC BY-SA 4.0</li>
+        <li>Двигатель, сцепление, тормоза: Shixart1985, CC BY 2.0</li>
+        <li>Привод ГРМ: Logansenf, CC BY-SA 4.0</li>
+        <li>Диагностика: Nenad Stojkovic, CC BY 2.0</li>
+        <li>Развал-схождение: Mike Peel, CC BY-SA 4.0</li>
+        <li>Турбина: Panoha, CC BY-SA 3.0</li>
+        <li>Остальные фото: CC0 и общественное достояние. Фото кадрированы, производные распространяются на тех же условиях.</li>
+        <li><a href="photos/CREDITS.md">Полный список источников</a></li>
+      </ul>
+    </details>
+  </div>
+</footer>
+
+<script>
+/* Проверка формы-витрины. Правила перенесены из C:\Claude Code\tools\form-rules (lead-rules.ts).
+   Телефон: только мобильный России +7 9XX, без библиотеки (внешние скрипты на странице не подключаем). */
+(function () {
+  var form = document.getElementById('lead');
+  if (!form) return;
+  function reU(src, fb) { try { return new RegExp(src, 'u'); } catch (e) { return new RegExp(fb); } }
+  var L = 'A-Za-zА-Яа-яЁё';
+  var NAME_RE = reU("^\\p{L}[\\p{L}\\p{M}]*(?:[ '’-]\\p{L}[\\p{L}\\p{M}]*)*$", '^[' + L + ']+(?:[ \'-][' + L + ']+)*$');
+  var TRIPLE_RE = reU('(\\p{L})\\1\\1', '([' + L + '])\\1\\1');
+  var TWO_LETTERS_RE = reU('\\p{L}{2}', '[' + L + ']{2}');
+  var NON_LETTERS_RE = reU('[^\\p{L}]+', '[^' + L + ']+');
+  var KB_ROWS = ['йцукенгшщзхъ', 'фывапролджэё', 'ячсмитьбю', 'qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
+  var JUNK_WORDS = /^(тест|тестовый|проверка|test|testing|qwerty|йцукен|фыва|олдж|asdf|asd|qwe|zxc|xxx|ххх|aaa|ааа)$/;
+  var MSG = {
+    nameEmpty: 'Как к вам обращаться?',
+    nameLen: 'Имя: от 2 до 60 символов',
+    nameChars: 'В имени только буквы, пробел, дефис и апостроф',
+    nameJunk: 'Похоже на случайный набор букв. Укажите настоящее имя',
+    phoneEmpty: 'Введите телефон',
+    phoneChars: 'В номере только цифры, +, пробелы, скобки и дефис',
+    phoneRu: 'Нужен мобильный номер России: +7\u00A09XX\u00A0XXX\u2011XX\u2011XX',
+    phoneJunk: 'Похоже на ненастоящий номер. Проверьте цифры',
+    model: 'Выберите модель или пункт «другая»',
+    msgJunk: 'Похоже на случайный набор букв. Опишите поломку словами или оставьте поле пустым',
+    msgLink: 'Ссылки в заявке не принимаем. Опишите поломку словами'
+  };
+  function cleanName(v) { return v.normalize ? v.normalize('NFC').replace(/\s+/g, ' ').trim() : v.replace(/\s+/g, ' ').trim(); }
+  function isJunkWord(w, needVowel) {
+    if (JUNK_WORDS.test(w) || TRIPLE_RE.test(w)) return true;
+    var latCyr = /^[a-zа-яё]+$/.test(w);
+    if (needVowel && latCyr && w.length >= 3 && !/[аеёиоуыэюяaeiouy]/.test(w)) return true;
+    if (latCyr && w.length >= 4) {
+      for (var r = 0; r < KB_ROWS.length; r++) {
+        var row = KB_ROWS[r], inRow = true, i;
+        for (i = 0; i < w.length && inRow; i++) inRow = row.indexOf(w[i]) >= 0;
+        if (!inRow) continue;
+        var pairs = {};
+        for (i = 0; i < w.length - 1; i++) { var p = w.slice(i, i + 2); if (pairs[p]) return true; pairs[p] = true; }
+      }
+    }
+    return false;
+  }
+  function nameError(raw) {
+    var v = cleanName(raw);
+    if (!v) return MSG.nameEmpty;
+    if (v.length < 2 || v.length > 60) return MSG.nameLen;
+    if (!NAME_RE.test(v)) return MSG.nameChars;
+    if (/(^|[ '’-])[A-Z]{12,}($|[ '’-])/.test(v)) return MSG.nameJunk;
+    var words = v.toLowerCase().split(/[ '’-]+/);
+    for (var i = 0; i < words.length; i++) if (isJunkWord(words[i], true)) return MSG.nameJunk;
+    return '';
+  }
+  function isJunkDigits(national) {
+    var n = national.slice(-9), tail = n.slice(-7);
+    if ('01234567890'.indexOf(tail) >= 0 || '9876543210'.indexOf(tail) >= 0) return true;
+    for (var p = 1; p <= 4; p++) {
+      var rep = true;
+      for (var i = p; i < n.length && rep; i++) rep = n[i] === n[i - p];
+      if (rep) return true;
+    }
+    return false;
+  }
+  function phoneError(raw) {
+    var s = raw.trim();
+    if (!s) return MSG.phoneEmpty;
+    if (s.length > 40 || !/^\+?[\d\s()\-]+$/.test(s)) return MSG.phoneChars;
+    var d = s.replace(/\D/g, '');
+    if (s[0] !== '+') d = d.length === 11 && d[0] === '8' ? '7' + d.slice(1) : d.length === 10 ? '7' + d : d;
+    if (!/^79\d{9}$/.test(d)) return MSG.phoneRu;
+    return isJunkDigits(d.slice(1)) ? MSG.phoneJunk : '';
+  }
+  function messageError(raw) {
+    var v = raw.trim().toLowerCase();
+    if (!v) return '';
+    if (!TWO_LETTERS_RE.test(v)) return MSG.msgJunk;
+    if (/(https?:\/\/|www\.|t\.me\/|telegram\.me\/|wa\.me\/|vk\.(com|ru)|\b[a-z0-9-]+\.(ru|com|net|org|me|io|ly|su|рф|xyz|info|biz|online|site)\b)/i.test(v)) return MSG.msgLink;
+    if (/[a-zа-яё]{3,}\d{3,}[a-zа-яё]{2,}/i.test(v)) return MSG.msgJunk;
+    var words = v.split(NON_LETTERS_RE).filter(Boolean);
+    if (words.length > 4) return '';
+    for (var i = 0; i < words.length; i++) if (!isJunkWord(words[i], false)) return '';
+    return MSG.msgJunk;
+  }
+  function modelError(v) { return v ? '' : MSG.model; }
+
+  var f = form.elements;
+  var checks = {
+    name: function () { return nameError(f.name.value); },
+    phone: function () { return phoneError(f.phone.value); },
+    model: function () { return modelError(f.model.value); },
+    message: function () { return messageError(f.message.value); }
+  };
+  var touched = {};
+  function show(key) {
+    var err = checks[key]();
+    var box = form.querySelector('[data-f="' + key + '"]');
+    box.classList.toggle('bad', !!err);
+    document.getElementById('e-' + key).textContent = err;
+    var input = box.querySelector('input,select,textarea');
+    if (err) input.setAttribute('aria-invalid', 'true'); else input.removeAttribute('aria-invalid');
+    return err;
+  }
+
+  // Маска: +7 (9XX) XXX-XX-XX
+  function mask(v) {
+    var d = v.replace(/\D/g, '');
+    if (!d) return '';
+    if (d[0] === '8') d = '7' + d.slice(1);
+    if (d[0] !== '7') d = '7' + d;
+    d = d.slice(0, 11);
+    var s = '+7';
+    if (d.length > 1) s += ' (' + d.slice(1, 4);
+    if (d.length >= 4) s += ')';
+    if (d.length > 4) s += ' ' + d.slice(4, 7);
+    if (d.length > 7) s += '-' + d.slice(7, 9);
+    if (d.length > 9) s += '-' + d.slice(9, 11);
+    return s;
+  }
+  f.phone.addEventListener('input', function (e) {
+    if (e.inputType && e.inputType.indexOf('delete') === 0) return;
+    f.phone.value = mask(f.phone.value);
+  });
+
+  Object.keys(checks).forEach(function (key) {
+    var el = f[key];
+    el.addEventListener('blur', function () { touched[key] = true; show(key); });
+    el.addEventListener(key === 'model' ? 'change' : 'input', function () { if (touched[key]) show(key); });
+  });
+
+  var ok = document.getElementById('ok');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    ok.classList.remove('on');
+    var okText = 'Заявка заполнена верно. В рабочей версии сайта она сразу придёт мастеру в Telegram.';
+    // Ловушка для ботов: скрытое поле website заполнено, отвечаем «ок» и ничего не отправляем
+    if (f.website.value) { ok.textContent = okText; ok.classList.add('on'); return; }
+    var first = null;
+    Object.keys(checks).forEach(function (key) {
+      touched[key] = true;
+      if (show(key) && !first) first = f[key];
+    });
+    if (first) { first.focus(); return; }
+    ok.textContent = okText;
+    ok.classList.add('on');
+  });
+})();
+</script>
+</body>
+</html>
